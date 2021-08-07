@@ -1,5 +1,5 @@
 import React from "react";
-import AdminAuthenticatedContainer from "../../containers/AdminAuthenticatedContainer";
+import AdminAuthenticatedContainer from "../../containers/AdminContainers/AdminAuthenticatedContainer";
 import { doSignInWithGoogle } from "../../firebase/firebase";
 
 const AdminHomePage: React.FC = () => {

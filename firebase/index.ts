@@ -5,25 +5,16 @@ import "firebase/functions";
 import "firebase/storage";
 import "firebase/messaging";
 
-import AuthProviders from "./authProviders";
-
 const FirebaseCredentials = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 };
 
-export const fbApp = firebase.initializeApp(FirebaseCredentials);
+let fbApp: firebase.app.App;
+// if a Firebase instance doesn't exist, create one
+if (!firebase.apps.length) {
+  fbApp = firebase.initializeApp(FirebaseCredentials);
+}
 
-export const useAuth = () => fbApp.auth();
-
-export const useFirestore = () => fbApp.firestore();
-
-export const useStorage = () => fbApp.storage();
-
-export const useFunctions = () => fbApp.functions();
-export const doSignInWithGoogle = () => {
-  return fbApp.auth().signInWithRedirect(AuthProviders.googleAuthProvider);
-};
-
-export const doSignOut = () => fbApp.auth().signOut();
+export default firebase;

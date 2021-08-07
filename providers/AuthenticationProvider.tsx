@@ -1,6 +1,6 @@
 import React, { FC, useState, useEffect } from "react";
 import firebase from "firebase";
-import { useAuth } from "../firebase";
+import { useAuth } from "../firebase/firebase";
 import AuthenticationContext from "../contexts/AuthenticationContext";
 
 import { Nullable } from "../types/";

@@ -1,15 +1,11 @@
 import React from "react";
-import AdminAuthenticatedContainer from "../../containers/AdminContainers/AdminAuthenticatedContainer";
-import AdminAuthorisedContainer from "../../containers/AdminContainers/AdminAuthorisedContainer";
-import { doSignInWithGoogle } from "../../firebase/firebase";
+import AdminDashboardContainer from "../../containers/AdminContainers/AdminDashboardContainer";
 
 const AdminHomePage: React.FC = () => {
   return (
-    <AdminAuthenticatedContainer>
-      <AdminAuthorisedContainer>
-        <div>"Hello World from Admin!"</div>
-      </AdminAuthorisedContainer>
-    </AdminAuthenticatedContainer>
+    <AdminDashboardContainer>
+      <div>"Hello World from Admin!"</div>
+    </AdminDashboardContainer>
   );
 };
 

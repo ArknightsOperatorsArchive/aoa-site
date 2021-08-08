@@ -24,5 +24,5 @@ export interface UserData {
 export interface UserContextState {
   isLoaded: boolean;
 
-  userData: Nullable<UserData>;
+  userData: UserData | null;
 }

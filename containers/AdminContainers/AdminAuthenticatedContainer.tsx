@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import AuthenticationContext from "../../contexts/AuthenticationContext";
-import { useEffect } from "react";
 
 const AdminAuthenticatedContainer: React.FC = ({ children }) => {
   const { isLoaded, user } = useContext(AuthenticationContext);
@@ -14,12 +13,7 @@ const AdminAuthenticatedContainer: React.FC = ({ children }) => {
   if (isLoaded && !user) {
     router.push("/admin/401");
   }
-  return (
-    <div>
-      <div>{`${isLoaded}, ${JSON.stringify(user)}`}</div>
-      {children}
-    </div>
-  );
+  return <div>{children}</div>;
 };
 
 export default AdminAuthenticatedContainer;

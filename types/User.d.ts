@@ -12,3 +12,17 @@ export interface AuthenticationContextState {
    */
   user: Nullable<firebase.User>;
 }
+
+export interface UserData {
+  uid: string;
+  displayName: string;
+  email: string;
+  // is administrator
+  isAdmin: boolean;
+}
+
+export interface UserContextState {
+  isLoaded: boolean;
+
+  userData: Nullable<UserData>;
+}

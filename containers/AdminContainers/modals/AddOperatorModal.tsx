@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { useFirestore } from "../../../firebase/firebase";
 
 export interface AddOperatorModalProps {
   modalOpen: boolean;
@@ -10,6 +11,8 @@ const AddOperatorModal: React.FC<AddOperatorModalProps> = ({
   modalOpen,
   onClose = () => {},
 }) => {
+  const firestore = useFirestore();
+
   return (
     <Transition appear show={modalOpen} as={Fragment}>
       <Dialog

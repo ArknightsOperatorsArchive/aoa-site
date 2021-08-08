@@ -1,7 +1,7 @@
 export default interface AKOperator {
   uid: string;
-  operatorName: string;
-  operatorType: OperatorClass;
+  name: string;
+  class: OperatorClass;
 }
 
 export type OperatorClass =

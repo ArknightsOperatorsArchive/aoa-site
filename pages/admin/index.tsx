@@ -3,7 +3,7 @@ import AdminDashboardContainer from "../../containers/AdminContainers/AdminDashb
 
 const AdminHomePage: React.FC = () => {
   return (
-    <AdminDashboardContainer>
+    <AdminDashboardContainer pageTitle="Home">
       <div>"Hello World from Admin!"</div>
     </AdminDashboardContainer>
   );

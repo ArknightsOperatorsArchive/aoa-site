@@ -27,7 +27,9 @@ export const UserInfoProvider: React.FC = ({ children }) => {
           console.error(err);
         });
     }
-    getData();
+    if (!isLoaded) {
+      getData();
+    }
   }, [functions]);
 
   return (

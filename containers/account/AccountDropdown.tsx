@@ -8,10 +8,10 @@ function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
-const AccountDropdown: React.FC = () => {
+const AccountDropdown = () => {
   const { isLoaded, user } = useContext(AuthenticationContext);
   if (!isLoaded || !user) {
-    return;
+    return null;
   }
   const userDisplay: firebase.User = user;
   return (
@@ -110,35 +110,7 @@ const AccountDropdown: React.FC = () => {
                 <Menu.Item>
                   {({ active }) => (
                     <a
-                      href="#"
-                      className={classNames(
-                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                        "block px-4 py-2 text-sm"
-                      )}
-                    >
-                      Get desktop app
-                    </a>
-                  )}
-                </Menu.Item>
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={classNames(
-                        active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                        "block px-4 py-2 text-sm"
-                      )}
-                    >
-                      Support
-                    </a>
-                  )}
-                </Menu.Item>
-              </div>
-              <div className="py-1">
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
+                      href="/admin/auth/logout"
                       className={classNames(
                         active ? "bg-gray-100 text-gray-900" : "text-gray-700",
                         "block px-4 py-2 text-sm"

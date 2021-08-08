@@ -9,6 +9,7 @@ export const useFirestore = () => firebase.firestore();
 export const useStorage = () => firebase.storage();
 
 export const useFunctions = () => firebase.functions();
+
 export const doSignInWithGoogle = () => {
   return firebase.auth().signInWithRedirect(authProviders.googleAuthProvider);
 };

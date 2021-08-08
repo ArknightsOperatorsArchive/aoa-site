@@ -10,11 +10,10 @@ const AdminAuthenticatedContainer: React.FC = ({ children }) => {
   if (!isLoaded) {
     return <div>Loading...</div>;
   }
-  useEffect(() => {
-    if (isLoaded && !user) {
-      router.push("/admin/401");
-    }
-  });
+
+  if (isLoaded && !user) {
+    router.push("/admin/401");
+  }
   return (
     <div>
       <div>{`${isLoaded}, ${JSON.stringify(user)}`}</div>

@@ -11,10 +11,9 @@ const FirebaseCredentials = {
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
 };
 
-let fbApp: firebase.app.App;
 // if a Firebase instance doesn't exist, create one
 if (!firebase.apps.length) {
-  fbApp = firebase.initializeApp(FirebaseCredentials);
+  firebase.initializeApp(FirebaseCredentials);
 }
 
 export default firebase;

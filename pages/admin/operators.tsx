@@ -25,6 +25,7 @@ const Operators = () => {
 
   useEffect(() => {
     function getData() {
+      setIsLoaded(false);
       const getUser = functions.httpsCallable("getOperators");
       getUser()
         .then((result) => {
@@ -48,6 +49,19 @@ const Operators = () => {
         modalOpen={modalOpen}
         onClose={() => {
           setModalOpen(false);
+          const getUser = functions.httpsCallable("getOperators");
+          getUser()
+            .then((result) => {
+              console.log(result);
+              const data = result.data as AKOperator[];
+              setArknightsOperators(data);
+              setIsLoaded(true);
+            })
+            .catch((err) => {
+              setArknightsOperators([]);
+              setIsLoaded(true);
+              console.error(err);
+            });
         }}
       />
       <AdminDashboardContainer

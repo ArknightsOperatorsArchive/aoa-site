@@ -1,5 +1,10 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/solid";
+import {
+  ChevronLeftIcon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+  ChevronRightIcon,
+} from "@heroicons/react/solid";
 
 import AdminDashboardContainer from "../../containers/AdminContainers/AdminDashboardContainer";
 import AddOperatorModal from "../../containers/AdminContainers/modals/AddOperatorModal";
@@ -140,18 +145,30 @@ const Operators = () => {
             </table>
             <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
               <div className="flex-1 flex justify-between sm:hidden">
-                <a
-                  href="#"
-                  className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                <button
+                  onClick={() => {
+                    if (currentPage != 1) {
+                      setCurrentPage(currentPage - 1);
+                    }
+                  }}
+                  disabled={currentPage === 1}
+                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
-                  Previous
-                </a>
-                <a
-                  href="#"
-                  className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                  <span className="sr-only">Previous</span>
+                  <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
+                <button
+                  onClick={() => {
+                    if (currentPage === totalPages) {
+                      setCurrentPage(currentPage + 1);
+                    }
+                  }}
+                  disabled={currentPage === totalPages}
+                  className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
                 >
-                  Next
-                </a>
+                  <span className="sr-only">Next</span>
+                  <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+                </button>
               </div>
               <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
                 <div>
@@ -169,7 +186,20 @@ const Operators = () => {
                   >
                     <button
                       onClick={() => {
-                        if (currentPage != 1) {
+                        setCurrentPage(1);
+                      }}
+                      disabled={currentPage === 1}
+                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                    >
+                      <span className="sr-only">Back to Front</span>
+                      <ChevronDoubleLeftIcon
+                        className="h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </button>
+                    <button
+                      onClick={() => {
+                        if (currentPage !== 1) {
                           setCurrentPage(currentPage - 1);
                         }
                       }}
@@ -197,7 +227,7 @@ const Operators = () => {
                     })}
                     <button
                       onClick={() => {
-                        if (currentPage === totalPages) {
+                        if (currentPage !== totalPages) {
                           setCurrentPage(currentPage + 1);
                         }
                       }}
@@ -206,6 +236,19 @@ const Operators = () => {
                     >
                       <span className="sr-only">Next</span>
                       <ChevronRightIcon
+                        className="h-5 w-5"
+                        aria-hidden="true"
+                      />
+                    </button>
+                    <button
+                      onClick={() => {
+                        setCurrentPage(totalPages);
+                      }}
+                      disabled={currentPage === totalPages}
+                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                    >
+                      <span className="sr-only">Back to End</span>
+                      <ChevronDoubleRightIcon
                         className="h-5 w-5"
                         aria-hidden="true"
                       />

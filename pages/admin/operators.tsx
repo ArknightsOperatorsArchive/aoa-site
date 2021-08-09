@@ -6,6 +6,7 @@ import AddOperatorModal from "../../containers/AdminContainers/modals/AddOperato
 import AKOperator from "../../types/AKOperator";
 import { useFunctions } from "../../firebase/firebase";
 import { paginate } from "../../utils/paginate";
+import DeleteOperatorModal from "../../containers/AdminContainers/modals/DeleteOperatorModal";
 
 const Operators = () => {
   const functions = useFunctions();
@@ -97,9 +98,6 @@ const Operators = () => {
                   >
                     Class
                   </th>
-                  <th scope="col" className="relative px-6 py-3">
-                    <span className="sr-only">Edit</span>
-                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -124,6 +122,9 @@ const Operators = () => {
                             alt={`${lowercaseClass} logo`}
                           />
                           <span className="ml-1">{operator.class}</span>
+                        </td>
+                        <td>
+                          <DeleteOperatorModal operator={operator} />
                         </td>
                       </tr>
                     );

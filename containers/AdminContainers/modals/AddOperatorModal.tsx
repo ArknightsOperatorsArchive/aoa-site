@@ -263,7 +263,7 @@ const AddOperatorModal: React.FC<AddOperatorModalProps> = ({
               )}
 
               <div className="mt-4">
-                {!hasSubmitted && (
+                {!hasSubmitted && !hasErrored && (
                   <button
                     type="button"
                     className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
@@ -272,7 +272,7 @@ const AddOperatorModal: React.FC<AddOperatorModalProps> = ({
                     }}
                     disabled={isSubmitting}
                   >
-                    Got it, thanks!
+                    Add Operator
                   </button>
                 )}
 
@@ -281,6 +281,11 @@ const AddOperatorModal: React.FC<AddOperatorModalProps> = ({
                   className="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 border border-transparent rounded-md hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
                   onClick={() => {
                     onClose();
+                    setIsSubmitting(false);
+                    setHasSubmitted(false);
+                    setHasErrored(false);
+                    setOperatorName("");
+                    setSelectedOperatorClass(akOperatorClasses[0]);
                   }}
                   disabled={isSubmitting}
                 >

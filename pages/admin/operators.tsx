@@ -32,7 +32,14 @@ const Operators = () => {
         .then((result) => {
           console.log(result);
           const data = result.data as AKOperator[];
-          setArknightsOperators(data);
+          return data;
+        })
+        .then((data) => {
+          const sortedData = data.sort((a, b) => {
+            if (a.name > b.name) return 1;
+            return -1;
+          });
+          setArknightsOperators(sortedData);
           setIsLoaded(true);
         })
         .catch((err) => {

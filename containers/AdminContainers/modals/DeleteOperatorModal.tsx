@@ -99,8 +99,8 @@ const DeleteOperatorModal: React.FC<DeleteOperatorModalProps> = ({
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">
-                          {`Are you sure you want to delete ${operator.uid}? All
-                          of your data will be permanently removed from our
+                          {`Are you sure you want to delete ${operator.uid}? ${operator.name} 
+                          will be permanently removed from our
                           servers forever. This action cannot be undone.`}
                         </p>
                       </div>

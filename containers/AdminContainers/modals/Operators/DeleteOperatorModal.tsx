@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { ExclamationIcon, XIcon } from "@heroicons/react/outline";
-import AKOperator from "../../../types/AKOperator";
-import { useFunctions } from "../../../firebase/firebase";
+import AKOperator from "../../../../types/AKOperator";
+import { useFunctions } from "../../../../firebase/firebase";
 
 interface DeleteOperatorModalProps {
   operator: AKOperator;

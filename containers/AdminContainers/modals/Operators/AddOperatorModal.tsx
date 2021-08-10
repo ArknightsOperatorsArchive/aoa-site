@@ -7,7 +7,7 @@ import {
   SelectorIcon,
 } from "@heroicons/react/solid";
 
-import { useFirestore, useFunctions } from "../../../firebase/firebase";
+import { useFunctions } from "../../../../firebase/firebase";
 
 export interface AddOperatorModalProps {
   modalOpen: boolean;

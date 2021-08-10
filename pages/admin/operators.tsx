@@ -7,15 +7,15 @@ import {
 } from "@heroicons/react/solid";
 
 import AdminDashboardContainer from "../../containers/AdminContainers/AdminDashboardContainer";
-import AddOperatorModal from "../../containers/AdminContainers/modals/AddOperatorModal";
+import AddOperatorModal from "../../containers/AdminContainers/modals/Operators/AddOperatorModal";
 import AKOperator from "../../types/AKOperator";
 import { useFunctions } from "../../firebase/firebase";
 import { paginate } from "../../utils/paginate";
-import DeleteOperatorModal from "../../containers/AdminContainers/modals/DeleteOperatorModal";
+import DeleteOperatorModal from "../../containers/AdminContainers/modals/Operators/DeleteOperatorModal";
 
 const Operators = () => {
   const functions = useFunctions();
-  let [modalOpen, setModalOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const [loaded, setIsLoaded] = useState(false);
   const [arknightsOperators, setArknightsOperators] = useState<AKOperator[]>(
     []
@@ -26,8 +26,6 @@ const Operators = () => {
     arknightsOperators.length,
     currentPage
   );
-
-  console.log(startIndex, endIndex, totalItems, pages, totalPages);
 
   useEffect(() => {
     function getData() {
@@ -55,6 +53,17 @@ const Operators = () => {
     }
     getData();
   }, [functions]);
+
+  if (!loaded) {
+    return (
+      <AdminDashboardContainer pageTitle="Manage Operators">
+        <div className="mt-4 mb-2 flex items-center justify-center flex-col">
+          <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
+          <div>Loading Opreators Details...</div>
+        </div>
+      </AdminDashboardContainer>
+    );
+  }
 
   return (
     <Fragment>
@@ -91,63 +100,110 @@ const Operators = () => {
           </Fragment>
         }
       >
-        {!loaded ? (
-          <div>Loading...</div>
-        ) : (
-          <>
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Name
+              </th>
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                Class
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {arknightsOperators
+              .slice(startIndex, endIndex + 1)
+              .map((operator, index) => {
+                const lowercaseClass =
+                  operator.class.charAt(0).toLowerCase() +
+                  operator.class.slice(1);
+                return (
+                  <tr
+                    key={operator.uid}
+                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
                   >
-                    Name
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Class
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {arknightsOperators
-                  .slice(startIndex, endIndex + 1)
-                  .map((operator, index) => {
-                    const lowercaseClass =
-                      operator.class.charAt(0).toLowerCase() +
-                      operator.class.slice(1);
-                    return (
-                      <tr
-                        key={operator.uid}
-                        className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
-                      >
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {operator.name}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center">
-                          <img
-                            className="h-6 w-6"
-                            src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
-                            alt={`${lowercaseClass} logo`}
-                          />
-                          <span className="ml-1">{operator.class}</span>
-                        </td>
-                        <td>
-                          <DeleteOperatorModal operator={operator} />
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-            <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-              <div className="flex-1 flex justify-between sm:hidden">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {operator.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center">
+                      <img
+                        className="h-6 w-6"
+                        src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
+                        alt={`${lowercaseClass} logo`}
+                      />
+                      <span className="ml-1">{operator.class}</span>
+                    </td>
+                    <td>
+                      <DeleteOperatorModal operator={operator} />
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+        <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+          <div className="flex-1 flex justify-between sm:hidden">
+            <button
+              onClick={() => {
+                if (currentPage != 1) {
+                  setCurrentPage(currentPage - 1);
+                }
+              }}
+              disabled={currentPage === 1}
+              className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+            >
+              <span className="sr-only">Previous</span>
+              <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <button
+              onClick={() => {
+                if (currentPage === totalPages) {
+                  setCurrentPage(currentPage + 1);
+                }
+              }}
+              disabled={currentPage === totalPages}
+              className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+            >
+              <span className="sr-only">Next</span>
+              <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
+            </button>
+          </div>
+          <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+            <div>
+              <p className="text-sm text-gray-700">
+                Showing <span className="font-medium">{startIndex + 1}</span> to{" "}
+                <span className="font-medium">{endIndex + 1}</span> of{" "}
+                <span className="font-medium">{totalItems}</span> results
+              </p>
+            </div>
+            <div>
+              <nav
+                className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+                aria-label="Pagination"
+              >
                 <button
                   onClick={() => {
-                    if (currentPage != 1) {
+                    setCurrentPage(1);
+                  }}
+                  disabled={currentPage === 1}
+                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                >
+                  <span className="sr-only">Back to Front</span>
+                  <ChevronDoubleLeftIcon
+                    className="h-5 w-5"
+                    aria-hidden="true"
+                  />
+                </button>
+                <button
+                  onClick={() => {
+                    if (currentPage !== 1) {
                       setCurrentPage(currentPage - 1);
                     }
                   }}
@@ -157,9 +213,25 @@ const Operators = () => {
                   <span className="sr-only">Previous</span>
                   <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                 </button>
+                {pages.map((pageNumber) => {
+                  return (
+                    <button
+                      onClick={() => setCurrentPage(pageNumber)}
+                      key={pageNumber}
+                      aria-current="page"
+                      className={
+                        currentPage === pageNumber
+                          ? "z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                          : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
+                      }
+                    >
+                      {pageNumber}
+                    </button>
+                  );
+                })}
                 <button
                   onClick={() => {
-                    if (currentPage === totalPages) {
+                    if (currentPage !== totalPages) {
                       setCurrentPage(currentPage + 1);
                     }
                   }}
@@ -169,96 +241,23 @@ const Operators = () => {
                   <span className="sr-only">Next</span>
                   <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                 </button>
-              </div>
-              <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                <div>
-                  <p className="text-sm text-gray-700">
-                    Showing{" "}
-                    <span className="font-medium">{startIndex + 1}</span> to{" "}
-                    <span className="font-medium">{endIndex + 1}</span> of{" "}
-                    <span className="font-medium">{totalItems}</span> results
-                  </p>
-                </div>
-                <div>
-                  <nav
-                    className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
-                    aria-label="Pagination"
-                  >
-                    <button
-                      onClick={() => {
-                        setCurrentPage(1);
-                      }}
-                      disabled={currentPage === 1}
-                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                    >
-                      <span className="sr-only">Back to Front</span>
-                      <ChevronDoubleLeftIcon
-                        className="h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    </button>
-                    <button
-                      onClick={() => {
-                        if (currentPage !== 1) {
-                          setCurrentPage(currentPage - 1);
-                        }
-                      }}
-                      disabled={currentPage === 1}
-                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                    >
-                      <span className="sr-only">Previous</span>
-                      <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-                    </button>
-                    {pages.map((pageNumber) => {
-                      return (
-                        <button
-                          onClick={() => setCurrentPage(pageNumber)}
-                          key={pageNumber}
-                          aria-current="page"
-                          className={
-                            currentPage === pageNumber
-                              ? "z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                              : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                          }
-                        >
-                          {pageNumber}
-                        </button>
-                      );
-                    })}
-                    <button
-                      onClick={() => {
-                        if (currentPage !== totalPages) {
-                          setCurrentPage(currentPage + 1);
-                        }
-                      }}
-                      disabled={currentPage === totalPages}
-                      className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                    >
-                      <span className="sr-only">Next</span>
-                      <ChevronRightIcon
-                        className="h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    </button>
-                    <button
-                      onClick={() => {
-                        setCurrentPage(totalPages);
-                      }}
-                      disabled={currentPage === totalPages}
-                      className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                    >
-                      <span className="sr-only">Back to End</span>
-                      <ChevronDoubleRightIcon
-                        className="h-5 w-5"
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </nav>
-                </div>
-              </div>
+                <button
+                  onClick={() => {
+                    setCurrentPage(totalPages);
+                  }}
+                  disabled={currentPage === totalPages}
+                  className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+                >
+                  <span className="sr-only">Back to End</span>
+                  <ChevronDoubleRightIcon
+                    className="h-5 w-5"
+                    aria-hidden="true"
+                  />
+                </button>
+              </nav>
             </div>
-          </>
-        )}
+          </div>
+        </div>
       </AdminDashboardContainer>
     </Fragment>
   );

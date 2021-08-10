@@ -1,6 +1,11 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { HomeIcon, ViewListIcon, XIcon } from "@heroicons/react/outline";
+import {
+  HomeIcon,
+  ViewListIcon,
+  XIcon,
+  PencilIcon,
+} from "@heroicons/react/outline";
 import AdminAuthenticatedContainer from "./AdminAuthenticatedContainer";
 import AdminAuthorisedContainer from "./AdminAuthorisedContainer";
 import AccountDropdown from "../account/AccountDropdown";
@@ -15,6 +20,11 @@ const navigation = [
     name: "Manage Operators",
     href: "/admin/operators",
     icon: ViewListIcon,
+  },
+  {
+    name: "Manage Artists",
+    href: "/admin/artists",
+    icon: PencilIcon,
   },
 ];
 

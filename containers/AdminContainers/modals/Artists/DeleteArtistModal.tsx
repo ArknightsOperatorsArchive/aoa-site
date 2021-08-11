@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { ExclamationIcon, XIcon } from "@heroicons/react/outline";
+import { ExclamationIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 
 import { useFunctions } from "../../../../firebase/firebase";
 import Artist from "../../../../types/Artist";
@@ -30,6 +30,7 @@ const DeleteArtistModal: React.FC<DeleteArtistModalProps> = ({ artist }) => {
         className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
         onClick={() => setOpen(true)}
       >
+        <TrashIcon className="h-5 w-5" aria-hidden="true" />
         Delete
       </button>
 

@@ -1,4 +1,7 @@
 import { useEffect, useState, Fragment } from "react";
+
+import { PencilIcon } from "@heroicons/react/solid";
+
 import SocialTag from "../../components/SocialTag";
 
 import AdminDashboardContainer from "../../containers/AdminContainers/AdminDashboardContainer";
@@ -118,9 +121,10 @@ const Artists = () => {
                     </div>
                     <div>
                       <button
-                        className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        className="w-full inline-flex justify-center leading-4 rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
                         onClick={() => setArtist(artist)}
                       >
+                        <PencilIcon className="h-5 w-5" aria-hidden="true" />
                         Edit Artist
                       </button>
 

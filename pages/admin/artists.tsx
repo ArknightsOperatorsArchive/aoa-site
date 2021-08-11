@@ -4,8 +4,10 @@ import SocialTag from "../../components/SocialTag";
 import AdminDashboardContainer from "../../containers/AdminContainers/AdminDashboardContainer";
 import AddArtistModal from "../../containers/AdminContainers/modals/Artists/AddArtistModal";
 import DeleteArtistModal from "../../containers/AdminContainers/modals/Artists/DeleteArtistModal";
+import UpdateArtistModal from "../../containers/AdminContainers/modals/Artists/UpdateArtistModal";
 
 import { useFunctions } from "../../firebase/firebase";
+import { Nullable } from "../../types";
 import Artist from "../../types/Artist";
 
 import { paginate } from "../../utils/paginate";
@@ -14,6 +16,7 @@ const Artists = () => {
   const functions = useFunctions();
   const [loaded, setIsLoaded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [artist, setArtist] = useState<Nullable<Artist>>(null);
   const [artists, setArtists] = useState<Artist[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -65,6 +68,13 @@ const Artists = () => {
         modalOpen={modalOpen}
         onClose={() => setModalOpen(false)}
       />
+      {artist && (
+        <UpdateArtistModal
+          modalOpen={!!artist}
+          artist={artist}
+          onClose={() => setArtist(null)}
+        />
+      )}
       <AdminDashboardContainer
         pageTitle="Manage Artists"
         controls={
@@ -107,7 +117,13 @@ const Artists = () => {
                       </div>
                     </div>
                     <div>
-                      <button>EDIT BUTTON</button>
+                      <button
+                        className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        onClick={() => setArtist(artist)}
+                      >
+                        Edit Artist
+                      </button>
+
                       <DeleteArtistModal artist={artist} />
                     </div>
                   </div>

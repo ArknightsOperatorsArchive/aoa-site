@@ -39,7 +39,7 @@ const Operators = () => {
         })
         .then((data) => {
           const sortedData = data.sort((a, b) => {
-            if (a.name > b.name) return 1;
+            if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
             return -1;
           });
           setArknightsOperators(sortedData);

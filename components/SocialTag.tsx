@@ -87,6 +87,7 @@ const SocialTag: React.FC<SocialTagProps> = ({ social }) => {
           <SocialTagTemplate
             icon={
               <svg
+                className="h-5 w-5"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
@@ -111,6 +112,7 @@ const SocialTag: React.FC<SocialTagProps> = ({ social }) => {
           <SocialTagTemplate
             icon={
               <svg
+                className="h-5 w-5"
                 role="img"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"

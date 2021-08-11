@@ -108,7 +108,7 @@ const AddOperatorModal: React.FC<AddOperatorModalProps> = ({
                 Add Operator
               </Dialog.Title>
               <div className="mt-2">
-                This allows you to add opreators to the database, simply type in
+                This allows you to add operators to the database, simply type in
                 the operator's name and select the operator class.
               </div>
               {isSubmitting ? (

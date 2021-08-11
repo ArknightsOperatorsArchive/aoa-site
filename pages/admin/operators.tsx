@@ -12,6 +12,7 @@ import AKOperator from "../../types/AKOperator";
 import { useFunctions } from "../../firebase/firebase";
 import { paginate } from "../../utils/paginate";
 import DeleteOperatorModal from "../../containers/AdminContainers/modals/Operators/DeleteOperatorModal";
+import { RefreshIcon } from "@heroicons/react/outline";
 
 const Operators = () => {
   const functions = useFunctions();
@@ -26,6 +27,30 @@ const Operators = () => {
     arknightsOperators.length,
     currentPage
   );
+
+  const refreshData = () => {
+    setIsLoaded(false);
+    const getUser = functions.httpsCallable("getOperators");
+    getUser()
+      .then((result) => {
+        console.log(result);
+        const data = result.data as AKOperator[];
+        return data;
+      })
+      .then((data) => {
+        const sortedData = data.sort((a, b) => {
+          if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+          return -1;
+        });
+        setArknightsOperators(sortedData);
+        setIsLoaded(true);
+      })
+      .catch((err) => {
+        setArknightsOperators([]);
+        setIsLoaded(true);
+        console.error(err);
+      });
+  };
 
   useEffect(() => {
     function getData() {
@@ -59,7 +84,7 @@ const Operators = () => {
       <AdminDashboardContainer pageTitle="Manage Operators">
         <div className="mt-4 mb-2 flex items-center justify-center flex-col">
           <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
-          <div>Loading Opreators Details...</div>
+          <div>Loading operators Details...</div>
         </div>
       </AdminDashboardContainer>
     );
@@ -90,6 +115,14 @@ const Operators = () => {
         pageTitle="Manage Operators"
         controls={
           <Fragment>
+            <button
+              type="button"
+              onClick={() => refreshData()}
+              className="order-0 inline-flex items-center leading-4 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-1 sm:ml-3"
+            >
+              <RefreshIcon className="h-5 w-5" aria-hidden="true" />
+              Refresh
+            </button>
             <button
               type="button"
               onClick={() => setModalOpen(true)}

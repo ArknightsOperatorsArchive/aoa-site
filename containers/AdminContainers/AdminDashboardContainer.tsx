@@ -5,6 +5,7 @@ import {
   ViewListIcon,
   XIcon,
   PencilIcon,
+  BriefcaseIcon,
 } from "@heroicons/react/outline";
 import AdminAuthenticatedContainer from "./AdminAuthenticatedContainer";
 import AdminAuthorisedContainer from "./AdminAuthorisedContainer";
@@ -25,6 +26,11 @@ const navigation = [
     name: "Manage Artists",
     href: "/admin/artists",
     icon: PencilIcon,
+  },
+  {
+    name: "Manage Projects",
+    href: "/admin/projects",
+    icon: BriefcaseIcon,
   },
 ];
 
@@ -104,7 +110,6 @@ const AdminDashboardContainer: React.FC<AdminDashboardContainerProps> = ({
                       <div className="space-y-1">
                         {navigation.map((item) => {
                           const current = currentPath === item.href;
-                          console.log(currentPath, current);
                           return (
                             <button
                               key={item.name}
@@ -158,7 +163,6 @@ const AdminDashboardContainer: React.FC<AdminDashboardContainerProps> = ({
                   <div className="space-y-1">
                     {navigation.map((item) => {
                       const current = currentPath === item.href;
-                      console.log(currentPath, current);
                       return (
                         <button
                           key={item.name}

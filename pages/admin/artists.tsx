@@ -1,77 +1,84 @@
-import React, { Fragment, useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
+
 import {
   ChevronLeftIcon,
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
   ChevronRightIcon,
+  PencilIcon,
+  RefreshIcon,
 } from "@heroicons/react/solid";
 
-import AdminDashboardContainer from "../../containers/AdminContainers/AdminDashboardContainer";
-import AddOperatorModal from "../../containers/AdminContainers/modals/Operators/AddOperatorModal";
-import AKOperator from "../../types/AKOperator";
-import { useFunctions } from "../../firebase/firebase";
-import { paginate } from "../../utils/paginate";
-import DeleteOperatorModal from "../../containers/AdminContainers/modals/Operators/DeleteOperatorModal";
-import { RefreshIcon } from "@heroicons/react/outline";
+import SocialTag from "../../components/SocialTag";
 
-const Operators = () => {
+import AdminDashboardContainer from "../../containers/AdminContainers/AdminDashboardContainer";
+import AddArtistModal from "../../containers/AdminContainers/modals/Artists/AddArtistModal";
+import DeleteArtistModal from "../../containers/AdminContainers/modals/Artists/DeleteArtistModal";
+import UpdateArtistModal from "../../containers/AdminContainers/modals/Artists/UpdateArtistModal";
+
+import { useFunctions } from "../../firebase/firebase";
+import { Nullable } from "../../types";
+import Artist from "../../types/Artist";
+
+import { paginate } from "../../utils/paginate";
+
+const Artists = () => {
   const functions = useFunctions();
-  const [modalOpen, setModalOpen] = useState(false);
   const [loaded, setIsLoaded] = useState(false);
-  const [arknightsOperators, setArknightsOperators] = useState<AKOperator[]>(
-    []
-  );
+  const [modalOpen, setModalOpen] = useState(false);
+  const [artist, setArtist] = useState<Nullable<Artist>>(null);
+  const [artists, setArtists] = useState<Artist[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
   const { startIndex, endIndex, totalItems, pages, totalPages } = paginate(
-    arknightsOperators.length,
+    artists.length,
     currentPage
   );
 
-  const refreshData = () => {
+  const refresh = () => {
     setIsLoaded(false);
-    const getUser = functions.httpsCallable("getOperators");
+    const getUser = functions.httpsCallable("getArtists");
     getUser()
       .then((result) => {
         console.log(result);
-        const data = result.data as AKOperator[];
+        const data = result.data as Artist[];
         return data;
       })
       .then((data) => {
         const sortedData = data.sort((a, b) => {
-          if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+          if (a.displayName > b.displayName) return 1;
           return -1;
         });
-        setArknightsOperators(sortedData);
+        setArtists(sortedData);
         setIsLoaded(true);
       })
       .catch((err) => {
-        setArknightsOperators([]);
+        setArtists([]);
         setIsLoaded(true);
         console.error(err);
       });
   };
-
   useEffect(() => {
     function getData() {
       setIsLoaded(false);
-      const getUser = functions.httpsCallable("getOperators");
+      const getUser = functions.httpsCallable("getArtists");
       getUser()
         .then((result) => {
           console.log(result);
-          const data = result.data as AKOperator[];
+          const data = result.data as Artist[];
           return data;
         })
         .then((data) => {
           const sortedData = data.sort((a, b) => {
-            if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+            if (a.displayName.toLowerCase() > b.displayName.toLowerCase())
+              return 1;
             return -1;
           });
-          setArknightsOperators(sortedData);
+          setArtists(sortedData);
           setIsLoaded(true);
         })
         .catch((err) => {
-          setArknightsOperators([]);
+          setArtists([]);
           setIsLoaded(true);
           console.error(err);
         });
@@ -81,43 +88,34 @@ const Operators = () => {
 
   if (!loaded) {
     return (
-      <AdminDashboardContainer pageTitle="Manage Operators">
+      <AdminDashboardContainer pageTitle="Manage Artists">
         <div className="mt-4 mb-2 flex items-center justify-center flex-col">
           <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12 mb-4"></div>
-          <div>Loading operators Details...</div>
+          <div>Loading Artist Details...</div>
         </div>
       </AdminDashboardContainer>
     );
   }
-
   return (
     <Fragment>
-      <AddOperatorModal
+      <AddArtistModal
         modalOpen={modalOpen}
-        onClose={() => {
-          setModalOpen(false);
-          const getUser = functions.httpsCallable("getOperators");
-          getUser()
-            .then((result) => {
-              console.log(result);
-              const data = result.data as AKOperator[];
-              setArknightsOperators(data);
-              setIsLoaded(true);
-            })
-            .catch((err) => {
-              setArknightsOperators([]);
-              setIsLoaded(true);
-              console.error(err);
-            });
-        }}
+        onClose={() => setModalOpen(false)}
       />
+      {artist && (
+        <UpdateArtistModal
+          modalOpen={!!artist}
+          artist={artist}
+          onClose={() => setArtist(null)}
+        />
+      )}
       <AdminDashboardContainer
-        pageTitle="Manage Operators"
+        pageTitle="Manage Artists"
         controls={
           <Fragment>
             <button
               type="button"
-              onClick={() => refreshData()}
+              onClick={() => refresh()}
               className="order-0 inline-flex items-center leading-4 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-1 sm:ml-3"
             >
               <RefreshIcon className="h-5 w-5" aria-hidden="true" />
@@ -128,59 +126,55 @@ const Operators = () => {
               onClick={() => setModalOpen(true)}
               className="order-0 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-1 sm:ml-3"
             >
-              Add Operator
+              Add Artist
             </button>
           </Fragment>
         }
       >
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Name
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-              >
-                Class
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {arknightsOperators
-              .slice(startIndex, endIndex + 1)
-              .map((operator, index) => {
-                const lowercaseClass =
-                  operator.class.charAt(0).toLowerCase() +
-                  operator.class.slice(1);
-                return (
-                  <tr
-                    key={operator.uid}
-                    className={index % 2 === 0 ? "bg-white" : "bg-gray-50"}
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                      {operator.name}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center">
-                      <img
-                        className="h-6 w-6"
-                        src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
-                        alt={`${lowercaseClass} logo`}
-                      />
-                      <span className="ml-1">{operator.class}</span>
-                    </td>
-                    <td>
-                      <DeleteOperatorModal operator={operator} />
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+        <ul className="divide-y divide-gray-200">
+          {artists.slice(startIndex, endIndex + 1).map((artist, index) => {
+            console.log(artist);
+            return (
+              <li key={artist.uid}>
+                <div className="block hover:bg-gray-50">
+                  <div className="flex items-center px-4 py-4 sm:px-6">
+                    <div className="min-w-0 flex-1 flex items-center">
+                      <div className="min-w-0 flex-1 px-4 md:gap-4 flex flex-col">
+                        <div>
+                          <span className="text-sm font-medium text-gray-400">
+                            Artist Display name
+                          </span>
+                          <p className="text-lg font-medium text-indigo-600 truncate">
+                            {artist.displayName}
+                          </p>
+                        </div>
+                        <div>
+                          <span className="text-sm font-medium text-gray-400">
+                            Artist Socials
+                          </span>
+                          {artist.socials.map((social, index) => {
+                            return <SocialTag key={index} social={social} />;
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                    <div>
+                      <button
+                        className="w-full inline-flex justify-center leading-4 rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        onClick={() => setArtist(artist)}
+                      >
+                        <PencilIcon className="h-5 w-5" aria-hidden="true" />
+                        Edit Artist
+                      </button>
+
+                      <DeleteArtistModal artist={artist} />
+                    </div>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
         <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
           <div className="flex-1 flex justify-between sm:hidden">
             <button
@@ -296,4 +290,4 @@ const Operators = () => {
   );
 };
 
-export default Operators;
+export default Artists;

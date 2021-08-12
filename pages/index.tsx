@@ -63,7 +63,7 @@ export default function Home() {
           </svg>
         </div>
         <div className="mt-2 p-4 flex flex-col items-center justify-center">
-          <h2 className="text-3xl">Arknights: Operators Archive</h2>
+          <h2 className="text-3xl">Arknights: Operator Archives</h2>
           <h4 className="text-xl mt-1">Coming Soon!!!</h4>
         </div>
       </div>

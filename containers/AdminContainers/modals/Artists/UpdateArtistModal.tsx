@@ -115,8 +115,8 @@ const UpdateArtistModal: React.FC<UpdateArtistModalProps> = ({
                 {`Update Artist - ${artist.displayName}`}
               </Dialog.Title>
               <div className="mt-2">
-                This allows you to add artists to the database, simply type in
-                the artist's name and select the operator class.
+                This allows you to update artists to the database, simply type
+                in the artist's name
               </div>
               {isSubmitting ? (
                 <div className="mt-4 mb-2 flex items-center justify-center flex-col">

@@ -7,7 +7,7 @@ import {
 } from "@heroicons/react/solid";
 
 import { useFunctions } from "../../../../firebase/firebase";
-import Artist, { ArtistSocials } from "../../../../types/Artist";
+import { ArtistSocials } from "../../../../types/Artist";
 import SocialTag from "../../../../components/SocialTag";
 
 export interface AddArtistModalProps {
@@ -108,7 +108,7 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({
               </Dialog.Title>
               <div className="mt-2">
                 This allows you to add artists to the database, simply type in
-                the artist's name and select the operator class.
+                the artist's name and add the socials.
               </div>
               {isSubmitting ? (
                 <div className="mt-4 mb-2 flex items-center justify-center flex-col">

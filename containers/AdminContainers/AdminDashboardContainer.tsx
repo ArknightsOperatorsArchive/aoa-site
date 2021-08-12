@@ -10,8 +10,6 @@ import {
 } from "@heroicons/react/outline";
 import AdminAuthenticatedContainer from "./AdminAuthenticatedContainer";
 import AdminAuthorisedContainer from "./AdminAuthorisedContainer";
-import AccountDropdown from "../account/AccountDropdown";
-import { useRouter } from "next/router";
 import { ProjectProvider } from "../../providers/ProjectsProvider";
 import MobileSidebar from "./sidebars/MobileSidebar";
 import StaticSidebar from "./sidebars/StaticSidebar";
@@ -44,10 +42,8 @@ const AdminDashboardContainer: React.FC<AdminDashboardContainerProps> = ({
   controls,
   pageTitle,
 }) => {
-  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const currentPath = router.pathname;
   return (
     <AdminAuthenticatedContainer>
       <AdminAuthorisedContainer>

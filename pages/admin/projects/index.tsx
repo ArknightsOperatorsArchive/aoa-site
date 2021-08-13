@@ -1,17 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
+import { useRouter } from "next/router";
 import Loading from "../../../components/Loading";
 import AdminDashboardContainer from "../../../containers/AdminContainers/AdminDashboardContainer";
 import ProjectsContext from "../../../contexts/ProjectsContext";
-import { useFunctions } from "../../../firebase/firebase";
-import Project from "../../../types/Project";
-import { paginate } from "../../../utils/paginate";
 
 const Projects = () => {
   const { isLoaded, projects } = useContext(ProjectsContext);
+  const router = useRouter();
 
   return (
     <AdminDashboardContainer pageTitle="Manage Projects">
-      <div>Projects</div>
       {!isLoaded ? (
         <Loading loadingMessage="Loading projects..." />
       ) : (
@@ -36,12 +34,14 @@ const Projects = () => {
                       )}
                     </div>
                     <div>
-                      <a
-                        href={`/admin/projects/${project.uid}`}
+                      <button
+                        onClick={() => {
+                          router.push(`/admin/projects/${project.uid}`);
+                        }}
                         className="inline-flex items-center shadow-sm px-2.5 py-0.5 border border-gray-300 text-sm leading-5 font-medium rounded-full text-gray-700 bg-white hover:bg-gray-50"
                       >
                         View
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </li>

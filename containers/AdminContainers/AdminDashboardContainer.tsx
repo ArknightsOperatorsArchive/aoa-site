@@ -1,16 +1,13 @@
-import React, { Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import React, { useState } from "react";
 import {
   HomeIcon,
   ViewListIcon,
-  XIcon,
   PencilIcon,
   BriefcaseIcon,
   MenuAlt1Icon,
 } from "@heroicons/react/outline";
 import AdminAuthenticatedContainer from "./AdminAuthenticatedContainer";
 import AdminAuthorisedContainer from "./AdminAuthorisedContainer";
-import { ProjectProvider } from "../../providers/ProjectsProvider";
 import MobileSidebar from "./sidebars/MobileSidebar";
 import StaticSidebar from "./sidebars/StaticSidebar";
 
@@ -47,39 +44,37 @@ const AdminDashboardContainer: React.FC<AdminDashboardContainerProps> = ({
   return (
     <AdminAuthenticatedContainer>
       <AdminAuthorisedContainer>
-        <ProjectProvider>
-          <div className="relative h-screen flex overflow-hidden bg-white">
-            <MobileSidebar
-              navigationItems={navigation}
-              onClose={() => {
-                setSidebarOpen(false);
-              }}
-              sidebarOpen={sidebarOpen}
-            />
+        <div className="relative h-screen flex overflow-hidden bg-white">
+          <MobileSidebar
+            navigationItems={navigation}
+            onClose={() => {
+              setSidebarOpen(false);
+            }}
+            sidebarOpen={sidebarOpen}
+          />
 
-            <StaticSidebar navigationItems={navigation} />
+          <StaticSidebar navigationItems={navigation} />
 
-            {/* Main column */}
-            <div className="flex flex-col w-0 flex-1 overflow-y-scroll">
-              <div className="border-b border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
-                <div className="flex-1 min-w-0 flex items-center">
-                  <button
-                    className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 lg:hidden"
-                    onClick={() => setSidebarOpen(true)}
-                  >
-                    <span className="sr-only">Open sidebar</span>
-                    <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
-                  </button>
-                  <h1 className="text-lg font-medium leading-6 ml-4 text-gray-900 sm:truncate">
-                    {pageTitle}
-                  </h1>
-                </div>
-                <div className="mt-4 flex sm:mt-0 sm:ml-4">{controls}</div>
+          {/* Main column */}
+          <div className="flex flex-col w-0 flex-1 overflow-y-scroll">
+            <div className="border-b border-gray-200 px-4 py-4 sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
+              <div className="flex-1 min-w-0 flex items-center">
+                <button
+                  className="px-4 border-r border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500 lg:hidden"
+                  onClick={() => setSidebarOpen(true)}
+                >
+                  <span className="sr-only">Open sidebar</span>
+                  <MenuAlt1Icon className="h-6 w-6" aria-hidden="true" />
+                </button>
+                <h1 className="text-lg font-medium leading-6 ml-4 text-gray-900 sm:truncate">
+                  {pageTitle}
+                </h1>
               </div>
-              {children}
+              <div className="mt-4 flex sm:mt-0 sm:ml-4">{controls}</div>
             </div>
+            {children}
           </div>
-        </ProjectProvider>
+        </div>
       </AdminAuthorisedContainer>
     </AdminAuthenticatedContainer>
   );

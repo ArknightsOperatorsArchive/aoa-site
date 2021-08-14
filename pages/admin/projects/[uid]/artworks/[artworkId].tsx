@@ -47,20 +47,7 @@ const ArtworkManagementPage = () => {
 
   if (!loaded) {
     return (
-      <AdminDashboardContainer
-        pageTitle={"Manage Artwork - Loading..."}
-        controls={
-          <Fragment>
-            <button
-              type="button"
-              onClick={() => router.push("/admin/projects/artworks/create")}
-              className="order-0 inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-blue-900 border-blue-600 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-1 sm:ml-3"
-            >
-              Add Artwork
-            </button>
-          </Fragment>
-        }
-      >
+      <AdminDashboardContainer pageTitle={"Manage Artwork - Loading..."}>
         <Loading loadingMessage="Grabbing artwork details..." />
       </AdminDashboardContainer>
     );
@@ -68,20 +55,7 @@ const ArtworkManagementPage = () => {
 
   if (errored) {
     return (
-      <AdminDashboardContainer
-        pageTitle={"Manage Artwork - Errored"}
-        controls={
-          <Fragment>
-            <button
-              type="button"
-              onClick={() => router.push("/admin/projects/artworks/create")}
-              className="order-0 inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-blue-900 border-blue-600 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-1 sm:ml-3"
-            >
-              Add Artwork
-            </button>
-          </Fragment>
-        }
-      >
+      <AdminDashboardContainer pageTitle={"Manage Artwork - Errored"}>
         <ErrorContainer>
           <h2 className="text-xl font-semibold">Error Occured</h2>
           <h3 className="text-md font-regular text-grey-300">Error stack:</h3>
@@ -93,20 +67,7 @@ const ArtworkManagementPage = () => {
 
   if (!artwork) {
     return (
-      <AdminDashboardContainer
-        pageTitle={"Manage Artwork - Errored"}
-        controls={
-          <Fragment>
-            <button
-              type="button"
-              onClick={() => router.push("/admin/projects/artworks/create")}
-              className="order-0 inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-blue-900 border-blue-600 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-1 sm:ml-3"
-            >
-              Add Artwork
-            </button>
-          </Fragment>
-        }
-      >
+      <AdminDashboardContainer pageTitle={"Manage Artwork - Errored"}>
         <ErrorContainer>
           <h2 className="text-xl font-semibold">Error Occured</h2>
           <h3 className="text-md font-regular text-grey-300">

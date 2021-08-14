@@ -16,6 +16,7 @@ import {
   useArtistDispatch,
   useArtistState,
 } from "../../../../contexts/ArtistsContext";
+import router from "next/router";
 
 const CreateArtwork: React.FC = () => {
   const projectsContext = useContext(ProjectsContext);
@@ -423,7 +424,10 @@ const CreateArtwork: React.FC = () => {
           <button
             type="button"
             className="inline-flex justify-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-200 border border-transparent rounded-md hover:bg-gray-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-            onClick={tearDown}
+            onClick={() => {
+              tearDown();
+              router.back();
+            }}
             disabled={isSubmitting}
           >
             Close

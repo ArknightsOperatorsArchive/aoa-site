@@ -1,13 +1,14 @@
 import React, { useContext } from "react";
 import { useRouter } from "next/router";
 import UserInfoContext from "../../contexts/UserInfoContext";
+import Loading from "../../components/Loading";
 
 const AdminAuthorisedContainer: React.FC = ({ children }) => {
   const { isLoaded, userData } = useContext(UserInfoContext);
   const router = useRouter();
 
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <Loading loadingMessage="Loading Authorization Details..." />;
   }
 
   if (isLoaded) {

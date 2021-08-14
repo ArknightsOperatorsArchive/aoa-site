@@ -9,6 +9,10 @@ import {
 import { useFunctions } from "../../../../firebase/firebase";
 import { ArtistSocials } from "../../../../types/Artist";
 import SocialTag from "../../../../components/SocialTag";
+import AKOperator from "../../../../types/AKOperator";
+import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
+import Loading from "../../../../components/Loading";
+import classNames from "../../../../utils/classNames";
 
 export interface AddArtworkModalProps {
   modalOpen: boolean;
@@ -22,8 +26,11 @@ const AddArtworkModal: React.FC<AddArtworkModalProps> = ({
   const [artistName, setArtistName] = useState("");
   const [socials, setSocials] = useState<ArtistSocials[]>([]);
 
-  const [socialProvider, setSocialProvider] = useState("");
-  const [username, setUsername] = useState("");
+  const [loaded, setIsLoaded] = useState(false);
+  const [arknightsOperators, setArknightsOperators] = useState<AKOperator[]>(
+    []
+  );
+  const [selected, setSelected] = useState(arknightsOperators[0]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -32,7 +39,29 @@ const AddArtworkModal: React.FC<AddArtworkModalProps> = ({
   const functions = useFunctions();
 
   useEffect(() => {
-    async function getData() {}
+    async function getData() {
+      setIsLoaded(false);
+      const getUser = functions.httpsCallable("getOperators");
+      getUser()
+        .then((result) => {
+          console.log(result);
+          const data = result.data as AKOperator[];
+          return data;
+        })
+        .then((data) => {
+          const sortedData = data.sort((a, b) => {
+            if (a.name.toLowerCase() > b.name.toLowerCase()) return 1;
+            return -1;
+          });
+          setArknightsOperators(sortedData);
+          setIsLoaded(true);
+        })
+        .catch((err) => {
+          setArknightsOperators([]);
+          setIsLoaded(true);
+          console.error(err);
+        });
+    }
     getData();
   }, []);
 
@@ -109,10 +138,10 @@ const AddArtworkModal: React.FC<AddArtworkModalProps> = ({
                 as="h3"
                 className="text-lg font-medium leading-6 text-gray-900"
               >
-                Add Artwork
+                Create Artwork
               </Dialog.Title>
               <div className="mt-2">
-                This allows you to add artworks to the database
+                This allows you to create a new artwork to the database
               </div>
               {isSubmitting ? (
                 <div className="mt-4 mb-2 flex items-center justify-center flex-col">
@@ -134,7 +163,92 @@ const AddArtworkModal: React.FC<AddArtworkModalProps> = ({
                   <div>Something went wrong, check console for details!</div>
                 </div>
               ) : (
-                <div className="mt-2"></div>
+                <div className="mt-2">
+                  {loaded ? (
+                    <Listbox value={selected} onChange={setSelected}>
+                      {({ open }) => (
+                        <>
+                          <Listbox.Label className="block text-sm font-medium text-gray-700">
+                            Operator
+                          </Listbox.Label>
+                          <div className="mt-1 relative">
+                            <Listbox.Button className="bg-white relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                              {selected && (
+                                <span className="block truncate">
+                                  {selected.name}
+                                </span>
+                              )}
+                              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                                <SelectorIcon
+                                  className="h-5 w-5 text-gray-400"
+                                  aria-hidden="true"
+                                />
+                              </span>
+                            </Listbox.Button>
+
+                            <Transition
+                              show={open}
+                              as={Fragment}
+                              leave="transition ease-in duration-100"
+                              leaveFrom="opacity-100"
+                              leaveTo="opacity-0"
+                            >
+                              <Listbox.Options className="absolute z-100 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                                {arknightsOperators.map((opreator) => (
+                                  <Listbox.Option
+                                    key={opreator.uid}
+                                    className={({ active }) =>
+                                      classNames(
+                                        active
+                                          ? "text-white bg-indigo-600"
+                                          : "text-gray-900",
+                                        "cursor-default select-none relative py-2 pl-3 pr-9"
+                                      )
+                                    }
+                                    value={opreator}
+                                  >
+                                    {({ selected, active }) => (
+                                      <>
+                                        <span
+                                          className={classNames(
+                                            selected
+                                              ? "font-semibold"
+                                              : "font-normal",
+                                            "block truncate font-lg"
+                                          )}
+                                        >
+                                          {opreator.name}
+                                        </span>
+
+                                        {selected ? (
+                                          <span
+                                            className={classNames(
+                                              active
+                                                ? "text-white"
+                                                : "text-indigo-600",
+                                              "absolute inset-y-0 right-0 flex items-center pr-4"
+                                            )}
+                                          >
+                                            <CheckIcon
+                                              className="h-5 w-5"
+                                              aria-hidden="true"
+                                            />
+                                          </span>
+                                        ) : null}
+                                      </>
+                                    )}
+                                  </Listbox.Option>
+                                ))}
+                              </Listbox.Options>
+                            </Transition>
+                          </div>
+                        </>
+                      )}
+                    </Listbox>
+                  ) : (
+                    <Loading />
+                  )}
+                </div>
               )}
 
               <div className="mt-4">
@@ -147,7 +261,7 @@ const AddArtworkModal: React.FC<AddArtworkModalProps> = ({
                     }}
                     disabled={isSubmitting}
                   >
-                    Add Artist
+                    Add Artwork
                   </button>
                 )}
 

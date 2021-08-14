@@ -10,13 +10,14 @@ export const ProjectProvider: React.FC = ({ children }) => {
   const [projects, setProjects] = useState<Project[]>([]);
 
   useEffect(() => {
-    function getData() {
+    async function getData() {
+      setIsLoaded(false);
       console.log("Calling getProjects Info Function...");
       const getUser = functions.httpsCallable("getProjects");
-      getUser()
+      await getUser()
         .then((result) => {
-          console.log(result);
           const data = result.data as Project[];
+          console.log(data);
           setProjects(data);
           setIsLoaded(true);
         })
@@ -24,11 +25,13 @@ export const ProjectProvider: React.FC = ({ children }) => {
           setProjects([]);
           setIsLoaded(true);
           console.error(err);
+          return [];
         });
     }
     if (!isLoaded) {
       getData();
     }
+    console.log(isLoaded);
   }, [functions]);
 
   return (

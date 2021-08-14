@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import AdminDashboardContainer from "../../../containers/AdminContainers/AdminDashboardContainer";
-import AddArtworkModal from "../../../containers/AdminContainers/modals/Artwork/AddArtworkModal";
 import { useFunctions } from "../../../firebase/firebase";
 
 import Artwork from "../../../types/Artwork";
 import { Nullable } from "../../../types";
 import StatusLabels from "../../../components/StatusLabels";
+import Loading from "../../../components/Loading";
+import ErrorContainer from "../../../components/Error";
 
 const ProjectPage = () => {
   const [addArtworkModalOpen, setAddArtworkModalOpen] = useState(false);
@@ -16,6 +17,7 @@ const ProjectPage = () => {
 
   const [loaded, setIsLoaded] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [errored, setErrored] = useState(false);
   const [error, setError] = useState<Nullable<Error>>(null);
   const [projectArtworks, setProjectArtworks] =
     useState<Nullable<Artwork[]>>(null);
@@ -37,10 +39,12 @@ const ProjectPage = () => {
           });
           setProjectArtworks(sortedData);
           setIsLoaded(true);
+          setErrored(false);
         })
         .catch((err) => {
           setProjectArtworks([]);
           setIsLoaded(true);
+          setErrored(true);
           setError(err);
           console.error(err);
         });
@@ -48,12 +52,53 @@ const ProjectPage = () => {
     getData();
   }, [functions]);
 
+  if (!loaded) {
+    return (
+      <AdminDashboardContainer
+        pageTitle={"Manage Project"}
+        controls={
+          <Fragment>
+            <button
+              type="button"
+              onClick={() => router.push("/admin/projects/artworks/create")}
+              className="order-0 inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-blue-900 border-blue-600 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-1 sm:ml-3"
+            >
+              Add Artwork
+            </button>
+          </Fragment>
+        }
+      >
+        <Loading loadingMessage="Grabbing latest artworks and project details..." />
+      </AdminDashboardContainer>
+    );
+  }
+  console.info(`Errored: ${errored}`);
+  if (errored) {
+    return (
+      <AdminDashboardContainer
+        pageTitle={"Manage Project"}
+        controls={
+          <Fragment>
+            <button
+              type="button"
+              onClick={() => router.push("/admin/projects/artworks/create")}
+              className="order-0 inline-flex items-center px-4 py-2 border shadow-sm text-sm font-medium rounded-md text-blue-900 border-blue-600 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:order-1 sm:ml-3"
+            >
+              Add Artwork
+            </button>
+          </Fragment>
+        }
+      >
+        <ErrorContainer>
+          <h2 className="text-xl font-semibold">Error Occured</h2>
+          <h3 className="text-md font-regular text-grey-300">Error stack:</h3>
+          {error && <div>{error.stack}</div>}
+        </ErrorContainer>
+      </AdminDashboardContainer>
+    );
+  }
   return (
     <React.Fragment>
-      <AddArtworkModal
-        modalOpen={addArtworkModalOpen}
-        onClose={() => setAddArtworkModalOpen(false)}
-      />
       <AdminDashboardContainer
         pageTitle={"Manage Project"}
         controls={

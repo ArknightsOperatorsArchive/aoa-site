@@ -4,7 +4,7 @@ interface LoadingComponentProps {
   loadingMessage?: string;
 }
 const Loading: React.FC<LoadingComponentProps> = ({
-  loadingMessage = "Loading",
+  loadingMessage = "Loading...",
 }) => {
   return (
     <div className="mt-4 mb-2 flex items-center justify-center flex-col">

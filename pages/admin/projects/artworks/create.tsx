@@ -99,8 +99,8 @@ const CreateArtwork: React.FC = () => {
     } = {
       projectId: selectedProject.uid,
       art: {
-        operatorId: selectedOperator.uid,
-        artistId: selectedArtist.uid,
+        operator: selectedOperator,
+        artist: selectedArtist,
         status: "Assigned",
       },
     };

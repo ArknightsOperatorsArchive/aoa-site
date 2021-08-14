@@ -4,7 +4,7 @@ import type { AppProps } from "next/app";
 import { AuthenticationProvider } from "../providers/AuthenticationProvider";
 import { UserInfoProvider } from "../providers/UserInfoProvider";
 import { ProjectProvider } from "../providers/ProjectsProvider";
-import { ArtistProvider } from "../providers/ArtistsProvder";
+import { ArtistProvider } from "../contexts/ArtistsContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

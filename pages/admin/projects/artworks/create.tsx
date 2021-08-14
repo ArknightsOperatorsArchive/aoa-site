@@ -12,13 +12,19 @@ import classNames from "../../../../utils/classNames";
 import ProjectsContext from "../../../../contexts/ProjectsContext";
 import Artwork from "../../../../types/Artwork";
 
+import {
+  useArtistDispatch,
+  useArtistState,
+} from "../../../../contexts/ArtistsContext";
+
 const CreateArtwork: React.FC = () => {
   const projectsContext = useContext(ProjectsContext);
   const [loaded, setIsLoaded] = useState(false);
   const [arknightsOperators, setArknightsOperators] = useState<AKOperator[]>(
     []
   );
-  const [artists, setArtists] = useState<Artist[]>([]);
+  const { artists } = useArtistState();
+  const dispatch = useArtistDispatch();
 
   const [selectedOperator, setSelectedOperator] = useState(
     arknightsOperators[0]
@@ -38,7 +44,6 @@ const CreateArtwork: React.FC = () => {
     async function getData() {
       setIsLoaded(false);
       const getOperators = functions.httpsCallable("getOperators");
-      const getArtists = functions.httpsCallable("getArtists");
 
       await getOperators()
         .then((result) => {
@@ -53,31 +58,10 @@ const CreateArtwork: React.FC = () => {
           });
           setArknightsOperators(sortedData);
           setSelectedOperator(sortedData[0]);
-          setIsLoaded(false);
+          setIsLoaded(true);
         })
         .catch((err) => {
           setArknightsOperators([]);
-          setIsLoaded(true);
-          console.error(err);
-        });
-      await getArtists()
-        .then((result) => {
-          console.log(result);
-          const data = result.data as Artist[];
-          return data;
-        })
-        .then((data) => {
-          const sortedData = data.sort((a, b) => {
-            if (a.displayName.toLowerCase() > b.displayName.toLowerCase())
-              return 1;
-            return -1;
-          });
-          setArtists(sortedData);
-          setSelectedArtist(sortedData[0]);
-          setIsLoaded(true);
-        })
-        .catch((err) => {
-          setArtists([]);
           setIsLoaded(true);
           console.error(err);
         });
@@ -130,7 +114,7 @@ const CreateArtwork: React.FC = () => {
   };
 
   console.log(selectedOperator, arknightsOperators);
-
+  console.log(projectsContext.isLoaded, loaded, arknightsOperators.length > 0);
   const isDataFullyLoaded =
     projectsContext.isLoaded && loaded && arknightsOperators.length > 0;
   if (!isDataFullyLoaded) {

@@ -12,6 +12,7 @@ import ErrorContainer from "../../../../components/Error";
 const ProjectPage = () => {
   const functions = useFunctions();
   const router = useRouter();
+
   const { uid } = router.query;
 
   const [loaded, setIsLoaded] = useState(false);

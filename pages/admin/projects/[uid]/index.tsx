@@ -23,6 +23,7 @@ const ProjectPage = () => {
 
   useEffect(() => {
     function getData() {
+      console.info("Getting Artworks Data!");
       const getAllArtworks = functions.httpsCallable("getAllArtworks");
       getAllArtworks({ projectId: uid })
         .then((result) => {
@@ -49,7 +50,7 @@ const ProjectPage = () => {
         });
     }
     getData();
-  }, [functions]);
+  }, [functions, uid]);
 
   if (!loaded) {
     return (

@@ -38,9 +38,6 @@ const ArtistDispatchContext = React.createContext<Dispatch | undefined>(
 );
 
 const reducer = (state: ProjectContextState, action: Action) => {
-  console.log(`Updating state with action \n
-   ${JSON.stringify(action, null, 2)}
-  `);
   switch (action.type) {
     case "@@ARTIST_DISPATCH/UPDATE_ARTIST":
       return {
@@ -87,7 +84,6 @@ export const ArtistProvider: React.FC = ({ children }) => {
       await getArtists()
         .then((result) => {
           const data = result.data as Artist[];
-          console.log(`Get data results in ${JSON.stringify(data, null, 2)}`);
           dispatch({
             type: "@@ARTIST_DISPATCH/UPDATE_ARTIST",
             artists: data,

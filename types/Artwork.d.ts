@@ -6,6 +6,7 @@ export default interface Artwork {
   artist: Artist;
   operator: AKOperator;
   status: status;
+  fileExists?: boolean;
 }
 
 export type ArtworkStatus =

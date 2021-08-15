@@ -18,6 +18,8 @@ import classNames from "../../../../../utils/classNames";
 import { Nullable } from "../../../../../types";
 import Artist from "../../../../../types/Artist";
 import Artwork, { ArtworkStatus } from "../../../../../types/Artwork";
+import DeleteConfirmationModal from "../../../../../containers/AdminContainers/modals/DeleteConfirmationModal";
+import { useNotificationDispatch } from "../../../../../contexts/NotificationProvider";
 
 const artworkStatus: ArtworkStatus[] = [
   "Not Assigned",
@@ -29,6 +31,7 @@ const artworkStatus: ArtworkStatus[] = [
 const ArtworkManagementPage = () => {
   const functions = useFunctions();
   const router = useRouter();
+  const dispatchNotifications = useNotificationDispatch();
   const { uid, artworkId } = router.query;
 
   const [loaded, setIsLoaded] = useState(false);
@@ -130,6 +133,38 @@ const ArtworkManagementPage = () => {
   return (
     <AdminDashboardContainer
       pageTitle={`Manage Artwork - ${artwork.operator.name}`}
+      controls={
+        <Fragment>
+          <DeleteConfirmationModal
+            modalHeading="Delete Artwork"
+            onDelete={() => {
+              const deleteArtwork = functions.httpsCallable("deleteArtwork");
+              deleteArtwork({ projectId: uid, artworkId: artworkId })
+                .then((result) => {
+                  console.log(result);
+                  dispatchNotifications({
+                    type: "@@NOTIFICATION/PUSH",
+                    notification: {
+                      title: "Successfully deleted artwork",
+                      message: "Artwork has been deleted.",
+                    },
+                  });
+                  router.back();
+                })
+                .catch((err) => {
+                  setArtwork(null);
+                  setIsLoaded(true);
+                  setErrored(true);
+                  setError(err);
+                  console.error(err);
+                });
+            }}
+          >
+            Are you sure you want to delete this artwork? Doing this is
+            irreversible
+          </DeleteConfirmationModal>
+        </Fragment>
+      }
     >
       <div className="py-3 px-2 divide-y divide-grey-500">
         <div>

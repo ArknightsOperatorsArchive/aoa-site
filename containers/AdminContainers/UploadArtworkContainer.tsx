@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { CloudUploadIcon } from "@heroicons/react/outline";
+import { CloudUploadIcon, DocumentRemoveIcon } from "@heroicons/react/outline";
 import Dropzone from "react-dropzone";
 import { useStorage } from "../../firebase/firebase";
 import ErrorContainer from "../../components/Error";
 import Artwork from "../../types/Artwork";
 import { Nullable } from "../../types";
 import Loading from "../../components/Loading";
+import DeleteConfirmationModal from "./modals/DeleteConfirmationModal";
 
 interface UploadArtworkContainerProps {
   artwork: Artwork;
@@ -54,15 +55,24 @@ const UploadArtworkContainer: React.FC<UploadArtworkContainerProps> = ({
       return <Loading loadingMessage="Loading image..." />;
     }
     return (
-      <div className="mt-3">
+      <div className="mt-10 flex flex-col">
         <img src={`${storageUrl}`} className="mx-auto w-1/2" />
-        <button
-          onClick={async () => {
-            await storage.ref().child(targetArtworkRef).delete();
+        <DeleteConfirmationModal
+          onDelete={() => {
+            async () => {
+              await storage.ref().child(targetArtworkRef).delete();
+            };
           }}
+          modalHeading="Delete Image"
+          buttonLabel={
+            <div className="flex items-center">
+              <DocumentRemoveIcon className="h-5 w-5 mr-1" />{" "}
+              <span>Remove Artwork</span>
+            </div>
+          }
         >
-          Delete Image
-        </button>
+          Are you sure you want to remove this image?
+        </DeleteConfirmationModal>
       </div>
     );
   }

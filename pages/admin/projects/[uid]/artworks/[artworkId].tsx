@@ -58,7 +58,10 @@ const ArtworkManagementPage = () => {
         .then((result) => {
           console.log(result);
           const data = result.data as Artwork;
-          return data;
+          return {
+            ...data,
+            uid: artworkId as StringConstructor,
+          };
         })
         .then((data) => {
           setArtwork(data);
@@ -296,11 +299,8 @@ const ArtworkManagementPage = () => {
             </div>
           )}
         </Listbox>
-        {artworkId && uid && (
-          <UploadArtworkContainer
-            artworkId={artworkId as string}
-            projectId={uid as string}
-          />
+        {artwork && uid && (
+          <UploadArtworkContainer artwork={artwork} projectId={uid as string} />
         )}
       </div>
     </AdminDashboardContainer>

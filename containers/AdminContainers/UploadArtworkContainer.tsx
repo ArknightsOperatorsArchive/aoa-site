@@ -3,21 +3,40 @@ import { CloudUploadIcon } from "@heroicons/react/outline";
 import Dropzone from "react-dropzone";
 import { useStorage } from "../../firebase/firebase";
 import ErrorContainer from "../../components/Error";
+import Artwork from "../../types/Artwork";
+import { Nullable } from "../../types";
+import Loading from "../../components/Loading";
 
 interface UploadArtworkContainerProps {
-  artworkId: string;
+  artwork: Artwork;
   projectId: string;
 }
 
 const UploadArtworkContainer: React.FC<UploadArtworkContainerProps> = ({
-  artworkId,
+  artwork,
   projectId,
 }) => {
   const storage = useStorage();
+  const artworkId = artwork.uid;
+
+  const [storageUrl, setStorageUrl] = useState<Nullable<string>>(null);
+  const [artworkLoading, setArtworkLoading] = useState(false);
 
   const targetArtworkRef = `/projects/${projectId}/artworkId/${artworkId}`;
 
-  const [fileExists, setFileExists] = useState(false);
+  console.log(artwork);
+
+  useEffect(() => {
+    async function getData() {
+      setArtworkLoading(true);
+      if (artwork.fileExists) {
+        const s = await storage.ref().child(targetArtworkRef).getDownloadURL();
+        setStorageUrl(s);
+      }
+      setArtworkLoading(false);
+    }
+    getData();
+  }, [storage]);
 
   if (!artworkId || !projectId) {
     return (
@@ -27,6 +46,24 @@ const UploadArtworkContainer: React.FC<UploadArtworkContainerProps> = ({
           Error container needs artworkId and projectId
         </h3>
       </ErrorContainer>
+    );
+  }
+
+  if (artwork.fileExists) {
+    if (artworkLoading) {
+      return <Loading loadingMessage="Loading image..." />;
+    }
+    return (
+      <div className="mt-3">
+        <img src={`${storageUrl}`} className="mx-auto w-1/2" />
+        <button
+          onClick={async () => {
+            await storage.ref().child(targetArtworkRef).delete();
+          }}
+        >
+          Delete Image
+        </button>
+      </div>
     );
   }
   return (

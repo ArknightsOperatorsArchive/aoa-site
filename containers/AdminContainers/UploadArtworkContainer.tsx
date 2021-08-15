@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CloudUploadIcon } from "@heroicons/react/outline";
 import Dropzone from "react-dropzone";
 import { useStorage } from "../../firebase/firebase";
@@ -14,6 +14,10 @@ const UploadArtworkContainer: React.FC<UploadArtworkContainerProps> = ({
   projectId,
 }) => {
   const storage = useStorage();
+
+  const targetArtworkRef = `/projects/${projectId}/artworkId/${artworkId}`;
+
+  const [fileExists, setFileExists] = useState(false);
 
   if (!artworkId || !projectId) {
     return (
@@ -31,7 +35,7 @@ const UploadArtworkContainer: React.FC<UploadArtworkContainerProps> = ({
         const file = acceptedFiles[0];
         await storage
           .ref()
-          .child(`/projects/${projectId}/artworkId/${artworkId}`)
+          .child(targetArtworkRef)
           .put(file)
           .then((snapshot) => snapshot);
         console.log(storage);

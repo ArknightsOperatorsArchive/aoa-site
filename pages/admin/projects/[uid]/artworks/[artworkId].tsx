@@ -3,8 +3,10 @@ import { useRouter } from "next/router";
 
 import { Listbox, Transition } from "@headlessui/react";
 import {
+  CheckCircleIcon,
   CheckIcon,
   ChevronRightIcon,
+  ExclamationCircleIcon,
   HomeIcon,
   SelectorIcon,
 } from "@heroicons/react/outline";
@@ -89,6 +91,58 @@ const ArtworkManagementPage = () => {
     getData();
   }, [functions, uid, artworkId]);
 
+  const update = () => {
+    const updateArtwork = functions.httpsCallable("updateArtwork");
+    updateArtwork({
+      projectId: uid,
+      artworkId: artworkId,
+      art: {
+        artist: selectedArtist,
+        status: selectedArtworkStatus,
+      },
+    })
+      .then((result) => {
+        console.log(result);
+        const data = result.data as Artwork;
+        dispatchNotifications({
+          type: "@@NOTIFICATION/PUSH",
+          notification: {
+            title: "Successfully updated artwork",
+            message: "Artwork has been update.",
+            icon: (
+              <CheckCircleIcon
+                className="h-6 w-6 text-green-400"
+                aria-hidden="true"
+              />
+            ),
+          },
+        });
+        return {
+          ...data,
+          uid: artworkId as string,
+        };
+      })
+      .catch((err: Error) => {
+        setArtwork(null);
+        setIsLoaded(true);
+        setErrored(true);
+        setError(err);
+        console.error(err);
+        dispatchNotifications({
+          type: "@@NOTIFICATION/PUSH",
+          notification: {
+            title: "An error happened when updating artwork",
+            message: err.message,
+            icon: (
+              <ExclamationCircleIcon
+                className="h-6 w-6 text-red-400"
+                aria-hidden="true"
+              />
+            ),
+          },
+        });
+      });
+  };
   if (!loaded && !artistsLoaded) {
     return (
       <AdminDashboardContainer pageTitle={"Manage Artwork - Loading..."}>
@@ -384,6 +438,17 @@ const ArtworkManagementPage = () => {
               </div>
             )}
           </Listbox>
+          <div className="mt-2 flex">
+            <div className="flex-1" />
+            <button
+              className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium border-blue-800 text-blue-900 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:text-sm"
+              onClick={() => {
+                update();
+              }}
+            >
+              Update Artwork
+            </button>
+          </div>
         </div>
         <div className="mt-4 py-2">
           <h2 className="text-lg font-semibold font-black-500">

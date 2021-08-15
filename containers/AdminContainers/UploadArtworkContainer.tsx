@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { CloudUploadIcon, DocumentRemoveIcon } from "@heroicons/react/outline";
+import {
+  CheckCircleIcon,
+  CloudUploadIcon,
+  DocumentRemoveIcon,
+} from "@heroicons/react/outline";
 import Dropzone from "react-dropzone";
 import { useStorage } from "../../firebase/firebase";
 import ErrorContainer from "../../components/Error";
@@ -7,6 +11,8 @@ import Artwork from "../../types/Artwork";
 import { Nullable } from "../../types";
 import Loading from "../../components/Loading";
 import DeleteConfirmationModal from "./modals/DeleteConfirmationModal";
+import { useNotificationDispatch } from "../../contexts/NotificationProvider";
+import router from "next/router";
 
 interface UploadArtworkContainerProps {
   artwork: Artwork;
@@ -23,9 +29,11 @@ const UploadArtworkContainer: React.FC<UploadArtworkContainerProps> = ({
   const [storageUrl, setStorageUrl] = useState<Nullable<string>>(null);
   const [artworkLoading, setArtworkLoading] = useState(false);
 
+  const dispatchNotifcation = useNotificationDispatch();
+
   const targetArtworkRef = `/projects/${projectId}/artworkId/${artworkId}`;
 
-  console.log(artwork);
+  console.log(targetArtworkRef);
 
   useEffect(() => {
     async function getData() {
@@ -58,10 +66,27 @@ const UploadArtworkContainer: React.FC<UploadArtworkContainerProps> = ({
       <div className="mt-10 flex flex-col">
         <img src={`${storageUrl}`} className="mx-auto w-1/2" />
         <DeleteConfirmationModal
-          onDelete={() => {
-            async () => {
-              await storage.ref().child(targetArtworkRef).delete();
-            };
+          onDelete={async () => {
+            await storage
+              .ref()
+              .child(targetArtworkRef)
+              .delete()
+              .then(() => {
+                dispatchNotifcation({
+                  type: "@@NOTIFICATION/PUSH",
+                  notification: {
+                    title: "Successfully deleted artwork!",
+                    message: "Artwork has been successfully deleted!",
+                    icon: (
+                      <CheckCircleIcon
+                        className="h-6 w-6 text-green-400"
+                        aria-hidden="true"
+                      />
+                    ),
+                  },
+                });
+              });
+            router.reload();
           }}
           modalHeading="Delete Image"
           buttonLabel={
@@ -85,6 +110,20 @@ const UploadArtworkContainer: React.FC<UploadArtworkContainerProps> = ({
           .child(targetArtworkRef)
           .put(file)
           .then((snapshot) => snapshot);
+        dispatchNotifcation({
+          type: "@@NOTIFICATION/PUSH",
+          notification: {
+            title: "Successfully uploaded artwork!",
+            message: "Artwork has been successfully uploaded!",
+            icon: (
+              <CheckCircleIcon
+                className="h-6 w-6 text-green-400"
+                aria-hidden="true"
+              />
+            ),
+          },
+        });
+        router.back();
         console.log(storage);
       }}
       onDropRejected={(err) => {

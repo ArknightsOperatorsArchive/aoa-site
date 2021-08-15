@@ -3,6 +3,7 @@ import React, { FC, useReducer } from "react";
 export type NotificationType = {
   title: string;
   message: string;
+  icon?: React.ReactElement;
 };
 
 type State = {

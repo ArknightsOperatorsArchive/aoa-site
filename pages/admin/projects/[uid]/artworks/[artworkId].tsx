@@ -2,7 +2,12 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
+import {
+  CheckIcon,
+  ChevronRightIcon,
+  HomeIcon,
+  SelectorIcon,
+} from "@heroicons/react/outline";
 
 import ErrorContainer from "../../../../../components/Error";
 import Loading from "../../../../../components/Loading";
@@ -130,6 +135,16 @@ const ArtworkManagementPage = () => {
   }
 
   console.log(artists, artistsLoaded);
+  const pages = [
+    { name: "Projects", href: "/admin/projects", current: false },
+    { name: uid, href: `/admin/projects/${uid}`, current: false },
+    {
+      name: artwork.operator.name,
+      href: `/admin/projects/${uid}/artworks/${artworkId}`,
+      current: true,
+    },
+  ];
+
   return (
     <AdminDashboardContainer
       pageTitle={`Manage Artwork - ${artwork.operator.name}`}
@@ -166,6 +181,40 @@ const ArtworkManagementPage = () => {
         </Fragment>
       }
     >
+      <div className="py-3 px-2">
+        <nav className="flex" aria-label="Breadcrumb">
+          <ol className="flex items-center space-x-4">
+            <li>
+              <div>
+                <a href="#" className="text-gray-400 hover:text-gray-500">
+                  <HomeIcon
+                    className="flex-shrink-0 h-5 w-5"
+                    aria-hidden="true"
+                  />
+                  <span className="sr-only">Home</span>
+                </a>
+              </div>
+            </li>
+            {pages.map((page) => (
+              <li key={page.href}>
+                <div className="flex items-center">
+                  <ChevronRightIcon
+                    className="flex-shrink-0 h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                  <button
+                    onClick={() => router.push(page.href)}
+                    className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    aria-current={page.current ? "page" : undefined}
+                  >
+                    {page.name}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </div>
       <div className="py-3 px-2 divide-y divide-grey-500">
         <div>
           {artistsLoaded ? (

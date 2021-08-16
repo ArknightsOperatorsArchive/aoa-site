@@ -8,6 +8,7 @@ import {
   ChevronRightIcon,
   ExclamationCircleIcon,
   HomeIcon,
+  MinusIcon,
   SelectorIcon,
 } from "@heroicons/react/outline";
 
@@ -27,6 +28,8 @@ import Artist from "../../../../../types/Artist";
 import Artwork, { ArtworkStatus } from "../../../../../types/Artwork";
 import DeleteConfirmationModal from "../../../../../containers/AdminContainers/modals/DeleteConfirmationModal";
 import { useNotificationDispatch } from "../../../../../contexts/NotificationProvider";
+import SocialTag from "../../../../../components/SocialTag";
+import ArtistsListBox from "../../../../../containers/AdminContainers/ArtistsListBox";
 
 const artworkStatus: ArtworkStatus[] = [
   "Not Assigned",
@@ -57,6 +60,12 @@ const ArtworkManagementPage = () => {
     artists[0]
   );
 
+  const [additionalArtists, setAdditionalArtists] = useState<Artist[]>([]);
+
+  const [selectedAdditionalArtist, setSelectedAdditionalArtist] = useState<
+    Nullable<Artist>
+  >(artists[0]);
+
   const [selectedArtworkStatus, setSelectedArtworkStatus] =
     useState<Nullable<ArtworkStatus>>(null);
 
@@ -79,6 +88,7 @@ const ArtworkManagementPage = () => {
           setErrored(false);
           setSelectedArtworkStatus(data.status);
           setSelectedArtist(data.artist);
+          setAdditionalArtists(data.artists || []);
         })
         .catch((err) => {
           setArtwork(null);
@@ -99,6 +109,7 @@ const ArtworkManagementPage = () => {
       art: {
         artist: selectedArtist,
         status: selectedArtworkStatus,
+        artists: additionalArtists,
       },
     })
       .then((result) => {
@@ -272,86 +283,11 @@ const ArtworkManagementPage = () => {
       <div className="py-3 px-2 divide-y divide-grey-500">
         <div>
           {artistsLoaded ? (
-            <Listbox value={selectedArtist} onChange={setSelectedArtist}>
-              {({ open }) => (
-                <div className="mt-3 z-30">
-                  <Listbox.Label className="block z-10 text-sm font-medium text-gray-700">
-                    Artist
-                  </Listbox.Label>
-                  <div className="mt-1 relative">
-                    <Listbox.Button className="bg-white z-10 relative w-full border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                      <span className="block truncate">
-                        {selectedArtist?.displayName}
-                      </span>
-                      <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                        <SelectorIcon
-                          className="h-5 w-5 text-gray-400"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </Listbox.Button>
-
-                    <Transition
-                      show={open}
-                      as={Fragment}
-                      leave="transition ease-in duration-100"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
-                    >
-                      <Listbox.Options
-                        style={{ zIndex: 100 }}
-                        className="absolute z-100 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
-                      >
-                        {artists.map((artist, index) => (
-                          <Listbox.Option
-                            key={index}
-                            className={({ active }) =>
-                              classNames(
-                                active
-                                  ? "text-white bg-indigo-600"
-                                  : "text-gray-900",
-                                "cursor-default select-none relative py-2 pl-3 pr-9"
-                              )
-                            }
-                            style={{
-                              zIndex: 100,
-                            }}
-                            value={artist}
-                          >
-                            {({ selected, active }) => (
-                              <>
-                                <span
-                                  className={classNames(
-                                    selected ? "font-semibold" : "font-normal",
-                                    "block truncate font-lg"
-                                  )}
-                                >
-                                  {artist.displayName}
-                                </span>
-
-                                {selected ? (
-                                  <span
-                                    className={classNames(
-                                      active ? "text-white" : "text-indigo-600",
-                                      "absolute inset-y-0 right-0 flex items-center pr-4"
-                                    )}
-                                  >
-                                    <CheckIcon
-                                      className="h-5 w-5"
-                                      aria-hidden="true"
-                                    />
-                                  </span>
-                                ) : null}
-                              </>
-                            )}
-                          </Listbox.Option>
-                        ))}
-                      </Listbox.Options>
-                    </Transition>
-                  </div>
-                </div>
-              )}
-            </Listbox>
+            <ArtistsListBox
+              artists={artists}
+              selectedArtist={selectedArtist}
+              onChange={setSelectedArtist}
+            />
           ) : (
             <div>Loading...</div>
           )}
@@ -438,7 +374,87 @@ const ArtworkManagementPage = () => {
               </div>
             )}
           </Listbox>
-          <div className="mt-2 flex">
+          <div className="mt-2 flex flex-col">
+            <h2 className="block z-10 text-sm font-medium text-gray-700">
+              Manage Additional Artists
+            </h2>
+            <div className="flex">
+              {artistsLoaded ? (
+                <ArtistsListBox
+                  artists={artists}
+                  selectedArtist={selectedAdditionalArtist}
+                  onChange={setSelectedAdditionalArtist}
+                />
+              ) : (
+                <div>Loading...</div>
+              )}
+              <div className="flex flex-col justify-reverse">
+                <div>
+                  <button
+                    className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium border-blue-800 text-blue-900 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:text-sm"
+                    onClick={() => {
+                      const newAdditionalArtists = [
+                        ...additionalArtists,
+                        selectedAdditionalArtist as Artist,
+                      ];
+                      setAdditionalArtists(newAdditionalArtists);
+                    }}
+                  >
+                    Add Artist
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div>
+              <ul className="divide-y divide-gray-200">
+                {additionalArtists.map((artist, index) => {
+                  return (
+                    <li key={artist.uid}>
+                      <div className="block hover:bg-gray-50">
+                        <div className="flex items-center px-4 py-4 sm:px-6">
+                          <div className="min-w-0 flex-1 flex items-center">
+                            <div className="min-w-0 flex-1 px-4 md:gap-4 flex ">
+                              <div className="flex flex-1 flex-col">
+                                <span className="text-sm font-medium text-gray-400">
+                                  Artist Display name
+                                </span>
+                                <p className="text-lg font-medium text-indigo-600 truncate">
+                                  {artist.displayName}
+                                </p>
+                              </div>
+                              <div className="flex flex-col">
+                                <button
+                                  onClick={() => {
+                                    const newAdditionalArtists = [
+                                      ...additionalArtists.slice(0, index),
+                                      ...additionalArtists.slice(
+                                        index + 1,
+                                        additionalArtists.length
+                                      ),
+                                    ];
+                                    setAdditionalArtists(newAdditionalArtists);
+                                  }}
+                                  type="button"
+                                  className="ml-2 inline-flex items-center p-1 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >
+                                  <MinusIcon
+                                    className="h-3 w-3"
+                                    aria-hidden="true"
+                                  />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          <div></div>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+          <div className="mt-4 flex">
             <div className="flex-1" />
             <button
               className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium border-blue-800 text-blue-900 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:text-sm"

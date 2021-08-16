@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useContext } from "react";
+import Loading from "../../../components/Loading";
+import ProjectsContext from "../../../contexts/ProjectsContext";
 import AccountDropdown from "../../account/AccountDropdown";
 import NavigationItem from "./Navigation";
 
@@ -13,6 +15,7 @@ function classNames(...classes: any) {
 
 const StaticSidebar: React.FC<StaticSidebarProps> = ({ navigationItems }) => {
   const router = useRouter();
+  const { projects, isLoaded } = useContext(ProjectsContext);
 
   const currentPath = router.pathname;
 
@@ -58,6 +61,32 @@ const StaticSidebar: React.FC<StaticSidebarProps> = ({ navigationItems }) => {
                   </button>
                 );
               })}
+            </div>
+            <div className="mt-8">
+              <h3
+                className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider"
+                id="projects-headline"
+              >
+                Projects
+              </h3>
+              {!isLoaded ? (
+                <Loading loadingMessage="Loading Projects..." />
+              ) : (
+                <div
+                  className="mt-1 space-y-1"
+                  aria-labelledby="projects-headline"
+                >
+                  {projects.map((project) => (
+                    <a
+                      key={project.uid}
+                      href={`/admin/projects/${project.uid}`}
+                      className="group flex items-center px-3 py-2 text-sm font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50"
+                    >
+                      <span className="truncate">{project.projectTitle}</span>
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </nav>
         </div>

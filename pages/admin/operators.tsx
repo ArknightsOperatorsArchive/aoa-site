@@ -166,11 +166,13 @@ const Operators = () => {
                       {operator.name}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex items-center">
-                      <img
-                        className="h-6 w-6"
-                        src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
-                        alt={`${lowercaseClass} logo`}
-                      />
+                      {lowercaseClass != "other" && (
+                        <img
+                          className="h-6 w-6"
+                          src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
+                          alt={`${lowercaseClass} logo`}
+                        />
+                      )}
                       <span className="ml-1">{operator.class}</span>
                     </td>
                     <td>

@@ -2,7 +2,14 @@ import React, { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { Listbox, Transition } from "@headlessui/react";
-import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
+import {
+  CheckCircleIcon,
+  CheckIcon,
+  ChevronRightIcon,
+  ExclamationCircleIcon,
+  HomeIcon,
+  SelectorIcon,
+} from "@heroicons/react/outline";
 
 import ErrorContainer from "../../../../../components/Error";
 import Loading from "../../../../../components/Loading";
@@ -18,6 +25,8 @@ import classNames from "../../../../../utils/classNames";
 import { Nullable } from "../../../../../types";
 import Artist from "../../../../../types/Artist";
 import Artwork, { ArtworkStatus } from "../../../../../types/Artwork";
+import DeleteConfirmationModal from "../../../../../containers/AdminContainers/modals/DeleteConfirmationModal";
+import { useNotificationDispatch } from "../../../../../contexts/NotificationProvider";
 
 const artworkStatus: ArtworkStatus[] = [
   "Not Assigned",
@@ -29,6 +38,7 @@ const artworkStatus: ArtworkStatus[] = [
 const ArtworkManagementPage = () => {
   const functions = useFunctions();
   const router = useRouter();
+  const dispatchNotifications = useNotificationDispatch();
   const { uid, artworkId } = router.query;
 
   const [loaded, setIsLoaded] = useState(false);
@@ -81,6 +91,58 @@ const ArtworkManagementPage = () => {
     getData();
   }, [functions, uid, artworkId]);
 
+  const update = () => {
+    const updateArtwork = functions.httpsCallable("updateArtwork");
+    updateArtwork({
+      projectId: uid,
+      artworkId: artworkId,
+      art: {
+        artist: selectedArtist,
+        status: selectedArtworkStatus,
+      },
+    })
+      .then((result) => {
+        console.log(result);
+        const data = result.data as Artwork;
+        dispatchNotifications({
+          type: "@@NOTIFICATION/PUSH",
+          notification: {
+            title: "Successfully updated artwork",
+            message: "Artwork has been update.",
+            icon: (
+              <CheckCircleIcon
+                className="h-6 w-6 text-green-400"
+                aria-hidden="true"
+              />
+            ),
+          },
+        });
+        return {
+          ...data,
+          uid: artworkId as string,
+        };
+      })
+      .catch((err: Error) => {
+        setArtwork(null);
+        setIsLoaded(true);
+        setErrored(true);
+        setError(err);
+        console.error(err);
+        dispatchNotifications({
+          type: "@@NOTIFICATION/PUSH",
+          notification: {
+            title: "An error happened when updating artwork",
+            message: err.message,
+            icon: (
+              <ExclamationCircleIcon
+                className="h-6 w-6 text-red-400"
+                aria-hidden="true"
+              />
+            ),
+          },
+        });
+      });
+  };
   if (!loaded && !artistsLoaded) {
     return (
       <AdminDashboardContainer pageTitle={"Manage Artwork - Loading..."}>
@@ -127,10 +189,86 @@ const ArtworkManagementPage = () => {
   }
 
   console.log(artists, artistsLoaded);
+  const pages = [
+    { name: "Projects", href: "/admin/projects", current: false },
+    { name: uid, href: `/admin/projects/${uid}`, current: false },
+    {
+      name: artwork.operator.name,
+      href: `/admin/projects/${uid}/artworks/${artworkId}`,
+      current: true,
+    },
+  ];
+
   return (
     <AdminDashboardContainer
       pageTitle={`Manage Artwork - ${artwork.operator.name}`}
+      controls={
+        <Fragment>
+          <DeleteConfirmationModal
+            modalHeading="Delete Artwork"
+            onDelete={() => {
+              const deleteArtwork = functions.httpsCallable("deleteArtwork");
+              deleteArtwork({ projectId: uid, artworkId: artworkId })
+                .then((result) => {
+                  console.log(result);
+                  dispatchNotifications({
+                    type: "@@NOTIFICATION/PUSH",
+                    notification: {
+                      title: "Successfully deleted artwork",
+                      message: "Artwork has been deleted.",
+                    },
+                  });
+                  router.back();
+                })
+                .catch((err) => {
+                  setArtwork(null);
+                  setIsLoaded(true);
+                  setErrored(true);
+                  setError(err);
+                  console.error(err);
+                });
+            }}
+          >
+            Are you sure you want to delete this artwork? Doing this is
+            irreversible
+          </DeleteConfirmationModal>
+        </Fragment>
+      }
     >
+      <div className="py-3 px-2">
+        <nav className="flex" aria-label="Breadcrumb">
+          <ol className="flex items-center space-x-4">
+            <li>
+              <div>
+                <a href="#" className="text-gray-400 hover:text-gray-500">
+                  <HomeIcon
+                    className="flex-shrink-0 h-5 w-5"
+                    aria-hidden="true"
+                  />
+                  <span className="sr-only">Home</span>
+                </a>
+              </div>
+            </li>
+            {pages.map((page) => (
+              <li key={page.href}>
+                <div className="flex items-center">
+                  <ChevronRightIcon
+                    className="flex-shrink-0 h-5 w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                  <button
+                    onClick={() => router.push(page.href)}
+                    className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
+                    aria-current={page.current ? "page" : undefined}
+                  >
+                    {page.name}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </div>
       <div className="py-3 px-2 divide-y divide-grey-500">
         <div>
           {artistsLoaded ? (
@@ -300,6 +438,17 @@ const ArtworkManagementPage = () => {
               </div>
             )}
           </Listbox>
+          <div className="mt-2 flex">
+            <div className="flex-1" />
+            <button
+              className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2  text-base font-medium border-blue-800 text-blue-900 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:text-sm"
+              onClick={() => {
+                update();
+              }}
+            >
+              Update Artwork
+            </button>
+          </div>
         </div>
         <div className="mt-4 py-2">
           <h2 className="text-lg font-semibold font-black-500">

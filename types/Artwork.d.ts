@@ -4,6 +4,7 @@ import Artist from "./Artist";
 export default interface Artwork {
   uid?: string;
   artist: Artist;
+  artists?: Artist[];
   operator: AKOperator;
   status: status;
   fileExists?: boolean;

@@ -46,7 +46,8 @@ const Artists = () => {
       })
       .then((data) => {
         const sortedData = data.sort((a, b) => {
-          if (a.displayName > b.displayName) return 1;
+          if (a.displayName.toLowerCase() > b.displayName.toLowerCase())
+            return 1;
           return -1;
         });
         setArtists(sortedData);

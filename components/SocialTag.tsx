@@ -25,7 +25,9 @@ const SocialTagTemplate: React.FC<SocialTagTemplateProps> = ({
           {social.displayName}
         </a>
       ) : (
-        <span>{social.displayName}</span>
+        <span>{`${social.url ? `${social.url} - ` : ""}${
+          social.displayName
+        }`}</span>
       )}
     </div>
   );
@@ -141,18 +143,126 @@ const SocialTag: React.FC<SocialTagProps> = ({ social }) => {
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
+                <title>DeviantArt</title>
+                <path
+                  d="M19.207 4.794l.23-.43V0H15.07l-.436.44-2.058 3.925-.646.436H4.58v5.993h4.04l.36.436-4.175 7.98-.24.43V24H8.93l.436-.44 2.07-3.925.644-.436h7.35v-5.993h-4.05l-.36-.438 4.186-7.977z"
+                  fill="currentColor"
+                />
+              </svg>
+            }
+            social={{
+              url: `https://deviantart.com/${social.username}`,
+              displayName: `@${social.username}`,
+            }}
+          />
+        </div>
+      );
+    case "Twitch":
+      return (
+        <div
+          style={{
+            color: "#9146FF",
+          }}
+        >
+          <SocialTagTemplate
+            icon={
+              <svg
+                className="h-5 w-5"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>Twitch</title>
+                <path
+                  d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z"
+                  fill="currentColor"
+                />
+              </svg>
+            }
+            social={{
+              url: `https://twitch.com/${social.username}`,
+              displayName: `@${social.username}`,
+            }}
+          />
+        </div>
+      );
+    case "Facebook":
+      return (
+        <div>
+          <SocialTagTemplate
+            icon={
+              <svg
+                className="h-5 w-5"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>Facebook</title>
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                  fill="currentColor"
+                />
+              </svg>
+            }
+            social={{
+              url: `https://facebook.com/${social.username}`,
+              displayName: `@${social.username}`,
+            }}
+          />
+        </div>
+      );
+    case "Patreon":
+      return (
+        <div>
+          <SocialTagTemplate
+            icon={
+              <svg
+                className="h-5 w-5"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>Patreon</title>
+                <path
+                  d="M0 .48v23.04h4.22V.48zm15.385 0c-4.764 0-8.641 3.88-8.641 8.65 0 4.755 3.877 8.623 8.641 8.623 4.75 0 8.615-3.868 8.615-8.623C24 4.36 20.136.48 15.385.48z"
+                  fill="currentColor"
+                />
+              </svg>
+            }
+            social={{
+              url: `https://patreon.com/${social.username}`,
+              displayName: `@${social.username}`,
+            }}
+          />
+        </div>
+      );
+
+    case "Tumblr":
+      return (
+        <div>
+          <SocialTagTemplate
+            icon={
+              <svg
+                className="h-5 w-5"
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
                 <svg
                   role="img"
                   viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <title>DeviantArt</title>
-                  <path d="M19.207 4.794l.23-.43V0H15.07l-.436.44-2.058 3.925-.646.436H4.58v5.993h4.04l.36.436-4.175 7.98-.24.43V24H8.93l.436-.44 2.07-3.925.644-.436h7.35v-5.993h-4.05l-.36-.438 4.186-7.977z" />
+                  <title>Tumblr</title>
+                  <path
+                    d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"
+                    fill="currentColor"
+                  />
                 </svg>
               </svg>
             }
             social={{
-              url: `https://deviantart/${social.username}`,
+              url: `https://${social.username}.tumblr.com`,
               displayName: `@${social.username}`,
             }}
           />
@@ -165,7 +275,7 @@ const SocialTag: React.FC<SocialTagProps> = ({ social }) => {
             icon={<GlobeAltIcon className="h-5 w-5" />}
             social={{
               url: social.username,
-              displayName: social.username,
+              displayName: `${social.provider} - ${social.username}`,
             }}
           />
         </div>

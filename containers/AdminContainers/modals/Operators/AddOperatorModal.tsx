@@ -193,7 +193,10 @@ const AddOperatorModal: React.FC<AddOperatorModalProps> = ({
                             >
                               <Listbox.Options
                                 static
-                                className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
+                                style={{
+                                  zIndex: 100,
+                                }}
+                                className="absolute z-100 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
                               >
                                 {akOperatorClasses.map((operatorClass) => {
                                   const lowercaseClass =

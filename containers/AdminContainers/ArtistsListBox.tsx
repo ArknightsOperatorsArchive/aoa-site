@@ -18,6 +18,17 @@ const ArtistsListBox: React.FC<ArtistsListBoxProps> = ({
   selectedArtist,
   onChange,
 }) => {
+  const regex = /[$-/:-?{-~!"^_`\/\[\]/]/;
+  const sortedArtists = artists.sort((a, b) => {
+    return a.displayName.split(regex)[0].replace(regex, "").toLowerCase() >
+      b.displayName
+        .split(regex)[0]
+        .replace(regex, "")
+        .split("/")[0]
+        .toLowerCase()
+      ? 1
+      : -1;
+  });
   return (
     <Listbox value={selectedArtist} onChange={onChange}>
       {({ open }) => (
@@ -49,7 +60,7 @@ const ArtistsListBox: React.FC<ArtistsListBoxProps> = ({
                 style={{ zIndex: 100 }}
                 className="absolute z-100 mt-1 w-full bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm"
               >
-                {artists.map((artist, index) => (
+                {sortedArtists.map((artist, index) => (
                   <Listbox.Option
                     key={index}
                     className={({ active }) =>

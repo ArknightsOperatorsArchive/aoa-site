@@ -4,6 +4,7 @@ import { ExclamationIcon, TrashIcon, XIcon } from "@heroicons/react/outline";
 
 import { useFunctions } from "../../../../firebase/firebase";
 import Artist from "../../../../types/Artist";
+import { useNotificationDispatch } from "../../../../contexts/NotificationProvider";
 
 interface DeleteArtistModalProps {
   artist: Artist;
@@ -11,6 +12,7 @@ interface DeleteArtistModalProps {
 
 const DeleteArtistModal: React.FC<DeleteArtistModalProps> = ({ artist }) => {
   const functions = useFunctions();
+  const dispatchNotifcation = useNotificationDispatch();
   const [open, setOpen] = useState(false);
 
   const deleteArtist = () => {
@@ -18,6 +20,13 @@ const DeleteArtistModal: React.FC<DeleteArtistModalProps> = ({ artist }) => {
     deleteArtistFunction(artist)
       .then(() => {
         console.log("Success!");
+        dispatchNotifcation({
+          type: "@@NOTIFICATION/PUSH",
+          notification: {
+            title: "Success!",
+            message: "Successfully deleted artist.",
+          },
+        });
       })
       .catch((err) => {
         console.error(err);

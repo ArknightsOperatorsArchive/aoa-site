@@ -33,8 +33,6 @@ const UploadArtworkContainer: React.FC<UploadArtworkContainerProps> = ({
 
   const targetArtworkRef = `/projects/${projectId}/artworkId/${artworkId}`;
 
-  console.log(targetArtworkRef);
-
   useEffect(() => {
     async function getData() {
       setArtworkLoading(true);
@@ -124,10 +122,9 @@ const UploadArtworkContainer: React.FC<UploadArtworkContainerProps> = ({
           },
         });
         router.back();
-        console.log(storage);
       }}
       onDropRejected={(err) => {
-        console.error;
+        console.error(err);
       }}
     >
       {({ getRootProps, getInputProps }) => (

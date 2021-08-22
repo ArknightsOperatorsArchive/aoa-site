@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Dialog, Transition, Listbox } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import {
   CheckCircleIcon,
   ExclamationCircleIcon,
@@ -9,6 +9,7 @@ import {
 import { useFunctions } from "../../../../firebase/firebase";
 import { ArtistSocials } from "../../../../types/Artist";
 import SocialTag from "../../../../components/SocialTag";
+import { useNotificationDispatch } from "../../../../contexts/NotificationProvider";
 
 export interface AddArtistModalProps {
   modalOpen: boolean;
@@ -19,6 +20,7 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({
   modalOpen,
   onClose = () => {},
 }) => {
+  const dispatchNotifications = useNotificationDispatch();
   const [artistName, setArtistName] = useState("");
   const [socials, setSocials] = useState<ArtistSocials[]>([]);
 
@@ -46,8 +48,16 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({
         setHasErrored(false);
         setHasSubmitted(true);
       })
-      .catch((err) => {
+      .catch((err: Error) => {
         console.error(err);
+        dispatchNotifications({
+          type: "@@NOTIFICATION/PUSH",
+          notification: {
+            title: "An Error Occured",
+            message: err.message,
+            icon: <ExclamationCircleIcon className="h-6 w-6 text-red-400" />,
+          },
+        });
         setIsSubmitting(false);
         setHasErrored(true);
         setHasSubmitted(false);
@@ -189,7 +199,7 @@ const AddArtistModal: React.FC<AddArtistModalProps> = ({
                             value={username}
                             onChange={(e) => setUsername(e.currentTarget.value)}
                             className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
-                            placeholder="Twitter"
+                            placeholder="@bweng_pog"
                           />
                         </div>
                         <div>

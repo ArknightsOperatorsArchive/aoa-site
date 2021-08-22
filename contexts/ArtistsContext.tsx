@@ -17,7 +17,7 @@ type Action =
   | {
       type: "@@ARTIST_DISPATCH/UPDATE_ERRORED";
       errored: boolean;
-      error: Error;
+      error?: Error;
     };
 
 type Dispatch = (action: Action) => void;
@@ -91,6 +91,10 @@ export const ArtistProvider: React.FC = ({ children }) => {
           dispatch({
             type: "@@ARTIST_DISPATCH/UPDATE_ISLOADED",
             isLoaded: true,
+          });
+          dispatch({
+            type: "@@ARTIST_DISPATCH/UPDATE_ERRORED",
+            errored: false,
           });
         })
         .catch((err) => {

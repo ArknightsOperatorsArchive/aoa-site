@@ -18,8 +18,16 @@ const ArtistsListBox: React.FC<ArtistsListBoxProps> = ({
   selectedArtist,
   onChange,
 }) => {
+  const regex = /[$-/:-?{-~!"^_`\/\[\]/]/;
   const sortedArtists = artists.sort((a, b) => {
-    return a.displayName.toLowerCase() > b.displayName.toLowerCase() ? 1 : -1;
+    return a.displayName.split(regex)[0].replace(regex, "").toLowerCase() >
+      b.displayName
+        .split(regex)[0]
+        .replace(regex, "")
+        .split("/")[0]
+        .toLowerCase()
+      ? 1
+      : -1;
   });
   return (
     <Listbox value={selectedArtist} onChange={onChange}>

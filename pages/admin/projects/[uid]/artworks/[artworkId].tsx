@@ -408,6 +408,7 @@ const ArtworkManagementPage = () => {
             <div>
               <ul className="divide-y divide-gray-200">
                 {additionalArtists.map((artist, index) => {
+                  console.log(artist);
                   return (
                     <li key={artist.uid}>
                       <div className="block hover:bg-gray-50">

@@ -1,20 +1,23 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, LegacyRef, MutableRefObject, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
 interface CoreDialogProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  ref?: MutableRefObject<HTMLElement | null>;
 }
 
 const CoreDialog: React.FC<CoreDialogProps> = ({
   children,
   isOpen,
   setIsOpen,
+  ref = undefined,
 }) => {
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
         as="div"
+        initialFocus={ref}
         className="fixed inset-0 z-10 overflow-y-auto"
         onClose={() => setIsOpen(false)}
       >

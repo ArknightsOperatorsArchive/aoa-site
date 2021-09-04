@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from "react";
+import React, { Fragment, useContext, useRef, useState } from "react";
 
 import UnderlineButton from "../../components/UnderlineButton";
 import { useArtistState } from "../../contexts/ArtistsContext";
@@ -9,6 +9,8 @@ const CreditsModal: React.FC = () => {
 
   const artists = useArtistState();
 
+  const ref = useRef(null);
+
   return (
     <Fragment>
       <UnderlineButton
@@ -17,9 +19,11 @@ const CreditsModal: React.FC = () => {
       >
         credits
       </UnderlineButton>
-      <CoreDialog isOpen={isOpen} setIsOpen={setIsOpen}>
+      <CoreDialog isOpen={isOpen} setIsOpen={setIsOpen} ref={ref}>
         <div className="font-black uppercase italic leading-6 max-w-xs">
-          <h2 className="text-7xl">Credits</h2>
+          <h2 className="text-7xl" ref={ref}>
+            Credits
+          </h2>
         </div>
         <div className="mt-4">
           <h2 className="font-semibold text-2xl">Organisers</h2>

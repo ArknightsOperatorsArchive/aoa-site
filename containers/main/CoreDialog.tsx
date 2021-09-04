@@ -50,7 +50,7 @@ const CoreDialog: React.FC<CoreDialogProps> = ({
             leaveFrom="opacity-20 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-black text-white shadow-xl rounded-2xl">
+            <div className="inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-800 text-white shadow-xl rounded-2xl">
               {children}
               <div className="mt-8">
                 <button

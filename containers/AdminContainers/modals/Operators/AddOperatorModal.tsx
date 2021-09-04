@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/solid";
 
 import { useFunctions } from "../../../../firebase/firebase";
+import { akOperatorClasses } from "../../../../constants/classes";
 
 export interface AddOperatorModalProps {
   modalOpen: boolean;
@@ -17,17 +18,6 @@ export interface AddOperatorModalProps {
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
-
-const akOperatorClasses = [
-  "Caster",
-  "Defender",
-  "Guard",
-  "Medic",
-  "Sniper",
-  "Specialist",
-  "Supporter",
-  "Vanguard",
-];
 
 const AddOperatorModal: React.FC<AddOperatorModalProps> = ({
   modalOpen,

@@ -1,6 +1,7 @@
 import UnderlineLink from "../../components/UnderlineLink";
 import styles from "../../styles/Home.module.css";
 import AboutProjectModal from "./AboutProjectModal";
+import CreditsModal from "./CreditsDialog";
 
 const CoreContainer: React.FC = ({ children }) => {
   return (
@@ -20,9 +21,7 @@ const CoreContainer: React.FC = ({ children }) => {
             <UnderlineLink href="#" className="text-2xl my-2">
               opreators
             </UnderlineLink>
-            <UnderlineLink href="/credits" className="text-2xl my-2">
-              credits
-            </UnderlineLink>
+            <CreditsModal />
           </div>
         </div>
         <div className="flex-1 flex justify-cente p-2">

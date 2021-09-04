@@ -22,8 +22,9 @@ const OperatorsModal: React.FC = () => {
             return (
               <img
                 src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
-                alt=""
+                alt={`${operatorClass} image`}
                 className="flex-shrink-0 h-20 w-20 rounded-lg"
+                key={index}
               />
             );
           })}

@@ -131,7 +131,7 @@ export const ArtistProvider: React.FC = ({ children }) => {
 function useArtistState() {
   const context = React.useContext(ArtistsContext);
   if (context === undefined) {
-    throw new Error("useArtist must be used within a NotificationProvider");
+    throw new Error("useArtist must be used within a ArtistsProvider");
   }
   return context;
 }
@@ -139,9 +139,7 @@ function useArtistState() {
 function useArtistDispatch() {
   const context = React.useContext(ArtistDispatchContext);
   if (context === undefined) {
-    throw new Error(
-      "useArtistDispatch must be used within a NotificationProvider"
-    );
+    throw new Error("useArtistDispatch must be used within a ArtistsProvider");
   }
   return context;
 }

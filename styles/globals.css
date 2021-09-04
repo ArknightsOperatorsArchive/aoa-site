@@ -3,6 +3,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: DDin;
+  src: url("/fonts/D-DIN.otf") format("opentype");
+}
+
+@font-face {
+  font-family: DDin-Italics;
+  src: url("/fonts/D-DIN-Italic.otf") format("opentype");
+}
+
+@font-face {
+  font-family: DDin-Bold;
+  src: url("/fonts/D-DINExp-Bold.otf") format("opentype");
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap");
+
 html,
 body {
   padding: 0;

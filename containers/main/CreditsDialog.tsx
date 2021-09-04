@@ -2,7 +2,6 @@ import React, { Fragment, useContext, useState } from "react";
 
 import UnderlineButton from "../../components/UnderlineButton";
 import { useArtistState } from "../../contexts/ArtistsContext";
-import chunkArray from "../../utils/chunkArray";
 import CoreDialog from "./CoreDialog";
 
 const CreditsModal: React.FC = () => {
@@ -23,32 +22,22 @@ const CreditsModal: React.FC = () => {
           <h2 className="text-7xl">Credits</h2>
         </div>
         <div className="mt-4">
-          <h2>Organisers</h2>
-          <ul>
+          <h2 className="font-semibold text-2xl">Organisers</h2>
+          <ul className="mt-2">
             <li>bweng</li>
             <li>zero</li>
           </ul>
         </div>
         <div className="mt-4">
-          <h2>Artists</h2>
-          {!artists.isLoaded ? (
+          <h2 className="font-semibold text-2xl">Artists</h2>
+          {!artists.isLoaded && !artists.artists ? (
             <div>Loading...</div>
           ) : (
-            chunkArray(
-              artists.artists,
-              Math.ceil(artists.artists.length / 3)
-            ).map((col, index) => {
-              console.log(col);
-              return (
-                <div key={index}>
-                  <ul>
-                    {col.map((artist) => {
-                      return <li key={artist.uid}>{artist.displayName}</li>;
-                    })}
-                  </ul>
-                </div>
-              );
-            })
+            <div className="mt-3 grid grid-cols-3 grid-rows-200 gap-2">
+              {artists.artists.map((artist) => {
+                return <div key={artist.uid}>{artist.displayName}</div>;
+              })}
+            </div>
           )}
         </div>
       </CoreDialog>

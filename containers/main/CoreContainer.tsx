@@ -1,5 +1,6 @@
 import UnderlineLink from "../../components/UnderlineLink";
 import styles from "../../styles/Home.module.css";
+import AboutProjectModal from "./AboutProjectModal";
 
 const CoreContainer: React.FC = ({ children }) => {
   return (
@@ -15,9 +16,7 @@ const CoreContainer: React.FC = ({ children }) => {
             >{`Arknights: \n Operators \n Archives`}</h1>
           </div>
           <div className="ml-2 flex flex-col justify-end px-2">
-            <UnderlineLink href="/info" className="text-2xl my-2">
-              project info
-            </UnderlineLink>
+            <AboutProjectModal />
             <UnderlineLink href="#" className="text-2xl my-2">
               opreators
             </UnderlineLink>

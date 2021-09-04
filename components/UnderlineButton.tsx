@@ -1,17 +1,19 @@
 import React from "react";
 
-import Link from "next/link";
-
-interface LinkProps {
-  href: string;
+interface UnderlineButtonProps {
+  onClick?: () => void;
   className?: string;
 }
 
-const UnderlineLink: React.FC<LinkProps> = ({ children, href, ...props }) => {
+const UnderlineButton: React.FC<UnderlineButtonProps> = ({
+  children,
+  onClick = () => {},
+  ...props
+}) => {
   const [hover, setHover] = React.useState(false);
   return (
     <div className="my-1">
-      <Link href={href}>
+      <button onClick={onClick}>
         <span
           {...props}
           style={{ overflow: "hidden" }}
@@ -24,7 +26,7 @@ const UnderlineLink: React.FC<LinkProps> = ({ children, href, ...props }) => {
         >
           {children}
         </span>
-      </Link>
+      </button>
       <div
         className="w-full bg-black"
         style={{
@@ -39,4 +41,4 @@ const UnderlineLink: React.FC<LinkProps> = ({ children, href, ...props }) => {
   );
 };
 
-export default UnderlineLink;
+export default UnderlineButton;

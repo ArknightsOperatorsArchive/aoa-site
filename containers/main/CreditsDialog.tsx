@@ -37,7 +37,7 @@ const CreditsModal: React.FC = () => {
           {!artists.isLoaded && !artists.artists ? (
             <div>Loading...</div>
           ) : (
-            <div className="mt-3 grid grid-cols-3 grid-rows-200 gap-2">
+            <div className="mt-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-rows-200 gap-2">
               {artists.artists.map((artist) => {
                 return <div key={artist.uid}>{artist.displayName}</div>;
               })}

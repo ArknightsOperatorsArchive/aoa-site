@@ -12,7 +12,7 @@ import {
   SelectorIcon,
 } from "@heroicons/react/outline";
 
-import ErrorContainer from "../../../../../components/Error";
+import ErrorComponent from "../../../../../components/Error";
 import Loading from "../../../../../components/Loading";
 import AdminDashboardContainer from "../../../../../containers/AdminContainers/AdminDashboardContainer";
 import UploadArtworkContainer from "../../../../../containers/AdminContainers/UploadArtworkContainer";
@@ -165,11 +165,11 @@ const ArtworkManagementPage = () => {
   if (errored) {
     return (
       <AdminDashboardContainer pageTitle={"Manage Artwork - Errored"}>
-        <ErrorContainer>
+        <ErrorComponent>
           <h2 className="text-xl font-semibold">Error Occured</h2>
           <h3 className="text-md font-regular text-grey-300">Error stack:</h3>
           {error && <div>{error.stack}</div>}
-        </ErrorContainer>
+        </ErrorComponent>
       </AdminDashboardContainer>
     );
   }
@@ -177,11 +177,11 @@ const ArtworkManagementPage = () => {
   if (artistsErrored) {
     return (
       <AdminDashboardContainer pageTitle={"Manage Artwork - Errored"}>
-        <ErrorContainer>
+        <ErrorComponent>
           <h2 className="text-xl font-semibold">Error Occured</h2>
           <h3 className="text-md font-regular text-grey-300">Error stack:</h3>
           {artistsError && <div>{artistsError.stack}</div>}
-        </ErrorContainer>
+        </ErrorComponent>
       </AdminDashboardContainer>
     );
   }
@@ -189,12 +189,12 @@ const ArtworkManagementPage = () => {
   if (!artwork) {
     return (
       <AdminDashboardContainer pageTitle={"Manage Artwork - Errored"}>
-        <ErrorContainer>
+        <ErrorComponent>
           <h2 className="text-xl font-semibold">Error Occured</h2>
           <h3 className="text-md font-regular text-grey-300">
             Artwork cannot be found.
           </h3>
-        </ErrorContainer>
+        </ErrorComponent>
       </AdminDashboardContainer>
     );
   }

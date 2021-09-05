@@ -1,31 +1,24 @@
-import UnderlineLink from "../../components/UnderlineLink";
-import styles from "../../styles/Home.module.css";
-import AboutProjectModal from "./AboutProjectModal";
-import CreditsModal from "./CreditsDialog";
-import OperatorsModal from "./OperatorClassDialog";
+import React from "react";
 
-const CoreContainer: React.FC = ({ children }) => {
+import Navigation, { NavigationProps } from "../../components/core/Navigation";
+
+import styles from "../../styles/Home.module.css";
+
+interface CoreContainerProps {
+  navigationProps?: NavigationProps;
+}
+
+const CoreContainer: React.FC<CoreContainerProps> = ({
+  children,
+  navigationProps,
+}) => {
   return (
     <div className={styles.container}>
       <div className="w-screen flex flex-col min-h-screen p-0 justify-center">
-        <div className="flex flex-row">
-          <div className="bg-black text-white pl-6 pr-12 pt-6 pb-14 ml-10 max-w-xs">
-            <h1
-              className="text-4xl leading-snug font-bold"
-              style={{
-                fontFamily: "Montserrat",
-              }}
-            >{`Arknights: \n Operators \n Archives`}</h1>
-          </div>
-          <div className="ml-2 flex flex-col justify-end px-2">
-            <AboutProjectModal />
-            <OperatorsModal />
-            <CreditsModal />
-          </div>
-        </div>
+        <Navigation {...navigationProps} />
         <div className="flex-1 flex justify-cente p-2">
           <h1
-            className="text-8xl font-black italic text-center uppercase"
+            className="hidden md:block text-8xl font-black italic text-center uppercase"
             style={{
               fontFamily: "DDin-Bold",
               writingMode: "vertical-lr",
@@ -35,17 +28,16 @@ const CoreContainer: React.FC = ({ children }) => {
             Operator
           </h1>
           <div className="flex-1 flex flex-col py-12 px-8">{children}</div>
-          <div className="flex text-8xl font-black italic text-center uppercase">
-            <h1
-              style={{
-                fontFamily: "DDin-Bold",
-                writingMode: "vertical-rl",
-                textOrientation: "sideways",
-              }}
-            >
-              Archives
-            </h1>
-          </div>
+          <h1
+            className="hidden md:block flex text-8xl font-black italic text-center uppercase"
+            style={{
+              fontFamily: "DDin-Bold",
+              writingMode: "vertical-rl",
+              textOrientation: "sideways",
+            }}
+          >
+            Archives
+          </h1>
         </div>
         <div className="self-center justify-self-flex-end w-full bg-black text-white p-4 text-center">
           This is a fan-initiated project and all rights belongs to Yostar Inc

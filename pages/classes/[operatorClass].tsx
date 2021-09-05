@@ -52,7 +52,7 @@ const OperatorClassPage: React.FC = () => {
   }
 
   return (
-    <CoreContainer>
+    <CoreContainer navigationProps={{ type: "compressed" }}>
       <div className="flex flex-1 flex-col items-center">
         <h2 className="text-4xl font-bold">{operatorClass}</h2>
 

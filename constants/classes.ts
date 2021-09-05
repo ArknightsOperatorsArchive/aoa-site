@@ -7,4 +7,5 @@ export const akOperatorClasses: string[] = [
   "Specialist",
   "Supporter",
   "Vanguard",
+  "Other",
 ];

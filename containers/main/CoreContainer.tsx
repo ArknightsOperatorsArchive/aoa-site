@@ -34,7 +34,7 @@ const CoreContainer: React.FC = ({ children }) => {
           >
             Operator
           </h1>
-          <div className="flex-1 justify-center flex flex-col">{children}</div>
+          <div className="flex-1 flex flex-col py-12 px-8">{children}</div>
           <div className="flex text-8xl font-black italic text-center uppercase">
             <h1
               style={{

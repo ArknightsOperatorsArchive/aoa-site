@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/outline";
 import Dropzone from "react-dropzone";
 import { useStorage } from "../../firebase/firebase";
-import ErrorContainer from "../../components/Error";
+import ErrorComponent from "../../components/Error";
 import Artwork from "../../types/Artwork";
 import { Nullable } from "../../types";
 import Loading from "../../components/Loading";
@@ -47,12 +47,12 @@ const UploadArtworkContainer: React.FC<UploadArtworkContainerProps> = ({
 
   if (!artworkId || !projectId) {
     return (
-      <ErrorContainer>
+      <ErrorComponent>
         <h2 className="text-xl font-semibold">Error Occured</h2>
         <h3 className="text-md font-regular text-grey-300">
           Error container needs artworkId and projectId
         </h3>
-      </ErrorContainer>
+      </ErrorComponent>
     );
   }
 

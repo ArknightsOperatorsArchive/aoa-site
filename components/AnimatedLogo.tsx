@@ -19,7 +19,7 @@ const AnimatedLogo = () => {
     <motion.svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 141.73 66.47"
-      className="text-black-500 h-64"
+      className="text-black-500 h-32 md:h-64"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 2 }}

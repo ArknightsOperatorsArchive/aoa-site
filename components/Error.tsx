@@ -1,7 +1,7 @@
 import { ExclamationCircleIcon } from "@heroicons/react/outline";
 import React from "react";
 
-const ErrorContainer: React.FC = ({ children }) => {
+const ErrorComponent: React.FC = ({ children }) => {
   return (
     <div className="mt-4 mb-2 flex items-center justify-center flex-col text-center">
       <div>
@@ -14,4 +14,4 @@ const ErrorContainer: React.FC = ({ children }) => {
   );
 };
 
-export default ErrorContainer;
+export default ErrorComponent;

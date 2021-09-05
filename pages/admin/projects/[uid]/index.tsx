@@ -7,7 +7,7 @@ import Artwork from "../../../../types/Artwork";
 import { Nullable } from "../../../../types";
 import StatusLabels from "../../../../components/StatusLabels";
 import Loading from "../../../../components/Loading";
-import ErrorContainer from "../../../../components/Error";
+import ErrorComponent from "../../../../components/Error";
 
 const ProjectPage = () => {
   const functions = useFunctions();
@@ -89,11 +89,11 @@ const ProjectPage = () => {
           </Fragment>
         }
       >
-        <ErrorContainer>
+        <ErrorComponent>
           <h2 className="text-xl font-semibold">Error Occured</h2>
           <h3 className="text-md font-regular text-grey-300">Error stack:</h3>
           {error && <div>{error.stack}</div>}
-        </ErrorContainer>
+        </ErrorComponent>
       </AdminDashboardContainer>
     );
   }

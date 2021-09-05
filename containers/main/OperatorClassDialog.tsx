@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { Fragment, useState } from "react";
 
 import UnderlineButton from "../../components/UnderlineButton";
@@ -20,12 +21,14 @@ const OperatorsModal: React.FC = () => {
             const lowercaseClass =
               operatorClass.charAt(0).toLowerCase() + operatorClass.slice(1);
             return (
-              <img
-                src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
-                alt={`${operatorClass} image`}
-                className="flex-shrink-0 h-20 w-20 rounded-lg"
-                key={index}
-              />
+              <Link href={`/classes/${operatorClass}`}>
+                <img
+                  src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
+                  alt={`${operatorClass} image`}
+                  className="flex-shrink-0 h-20 w-20 rounded-lg"
+                  key={index}
+                />
+              </Link>
             );
           })}
         </div>

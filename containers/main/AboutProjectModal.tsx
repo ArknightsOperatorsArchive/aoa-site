@@ -13,10 +13,11 @@ const AboutProjectModal: React.FC = () => {
       >
         project info
       </UnderlineButton>
-      <CoreDialog isOpen={isOpen} setIsOpen={setIsOpen}>
-        <div className="font-black uppercase italic leading-6 max-w-xs">
-          <h2 className="text-7xl">About the Project</h2>
-        </div>
+      <CoreDialog
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        modalHeading="About the project"
+      >
         <div className="mt-4">
           <p className="text-lg">
             This is a fan-made project where we aim to draw every single

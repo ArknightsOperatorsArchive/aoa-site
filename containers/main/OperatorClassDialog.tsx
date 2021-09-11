@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React, { Fragment, useState } from "react";
 
 import UnderlineButton from "../../components/UnderlineButton";
@@ -14,18 +15,20 @@ const OperatorsModal: React.FC = () => {
       >
         operators
       </UnderlineButton>
-      <CoreDialog isOpen={isOpen} setIsOpen={setIsOpen}>
-        <div className="flex flex-row items-center flex-1 justify-around">
+      <CoreDialog isOpen={isOpen} setIsOpen={setIsOpen} modalHeading="">
+        <div className="flex flex-row items-center flex-wrap flex-1 justify-around">
           {akOperatorClasses.map((operatorClass, index) => {
             const lowercaseClass =
               operatorClass.charAt(0).toLowerCase() + operatorClass.slice(1);
             return (
-              <img
-                src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
-                alt={`${operatorClass} image`}
-                className="flex-shrink-0 h-20 w-20 rounded-lg"
-                key={index}
-              />
+              <Link href={`/classes/${operatorClass}`}>
+                <img
+                  src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
+                  alt={`${operatorClass} image`}
+                  className="flex-shrink-0 h-20 w-20 rounded-lg"
+                  key={index}
+                />
+              </Link>
             );
           })}
         </div>

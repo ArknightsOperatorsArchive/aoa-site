@@ -15,7 +15,7 @@ const OperatorsModal: React.FC = () => {
       >
         operators
       </UnderlineButton>
-      <CoreDialog isOpen={isOpen} setIsOpen={setIsOpen}>
+      <CoreDialog isOpen={isOpen} setIsOpen={setIsOpen} modalHeading="">
         <div className="flex flex-row items-center flex-1 justify-around">
           {akOperatorClasses.map((operatorClass, index) => {
             const lowercaseClass =

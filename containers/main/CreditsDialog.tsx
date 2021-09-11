@@ -19,12 +19,12 @@ const CreditsModal: React.FC = () => {
       >
         credits
       </UnderlineButton>
-      <CoreDialog isOpen={isOpen} setIsOpen={setIsOpen} ref={ref}>
-        <div className="font-black uppercase italic leading-6 max-w-xs">
-          <h2 className="text-7xl" ref={ref}>
-            Credits
-          </h2>
-        </div>
+      <CoreDialog
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        ref={ref}
+        modalHeading="Credits"
+      >
         <div className="mt-4">
           <h2 className="font-semibold text-2xl">Organisers</h2>
           <ul className="mt-2">

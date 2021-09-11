@@ -27,7 +27,9 @@ const CoreContainer: React.FC<CoreContainerProps> = ({
           >
             Operator
           </h1>
-          <div className="flex-1 flex flex-col py-12 px-8">{children}</div>
+          <div className="flex-1 flex flex-col py-12 px-8 overflow-y-scroll">
+            {children}
+          </div>
           <h1
             className="hidden md:block flex text-8xl font-black italic text-center uppercase"
             style={{

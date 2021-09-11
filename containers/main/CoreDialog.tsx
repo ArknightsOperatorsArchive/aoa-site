@@ -1,7 +1,9 @@
 import React, { Fragment, LegacyRef, MutableRefObject, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import { XIcon } from "@heroicons/react/outline";
 
 interface CoreDialogProps {
+  modalHeading: string;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   ref?: MutableRefObject<HTMLElement | null>;
@@ -9,6 +11,7 @@ interface CoreDialogProps {
 
 const CoreDialog: React.FC<CoreDialogProps> = ({
   children,
+  modalHeading,
   isOpen,
   setIsOpen,
   ref = undefined,
@@ -51,16 +54,25 @@ const CoreDialog: React.FC<CoreDialogProps> = ({
             leaveTo="opacity-0 scale-95"
           >
             <div className="inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-800 text-white shadow-xl rounded-2xl">
-              {children}
-              <div className="mt-8">
-                <button
-                  type="button"
-                  className="inline-flex justify-center px-4 py-2 text-sm font-semibold text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                  onClick={() => setIsOpen(false)}
-                >
-                  Got it, thanks!
-                </button>
+              <div className="flex flex-1">
+                <div className="font-black uppercase italic leading-6 flex-1">
+                  <h2 className="text-7xl">{modalHeading}</h2>
+                </div>
+                <div className="mt-8 flex flex-col justify-start">
+                  <button
+                    type="button"
+                    className="inline-flex items-center px-4 py-2 text-sm font-semibold text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <XIcon
+                      className="-ml-0.5 mr-2 h-4 w-4"
+                      aria-hidden="true"
+                    />
+                    Okay
+                  </button>
+                </div>
               </div>
+              {children}
             </div>
           </Transition.Child>
         </div>

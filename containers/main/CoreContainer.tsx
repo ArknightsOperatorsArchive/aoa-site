@@ -18,7 +18,7 @@ const CoreContainer: React.FC<CoreContainerProps> = ({
         <Navigation {...navigationProps} />
         <div className="flex-1 flex justify-cente p-2">
           <h1
-            className="hidden md:block text-8xl font-black italic text-center uppercase"
+            className="hidden md:block text-8xl font-black italic text-center uppercase select-none"
             style={{
               fontFamily: "DDin-Bold",
               writingMode: "vertical-lr",
@@ -29,7 +29,7 @@ const CoreContainer: React.FC<CoreContainerProps> = ({
           </h1>
           <div className="flex-1 flex flex-col py-12 px-8">{children}</div>
           <h1
-            className="hidden md:block flex text-8xl font-black italic text-center uppercase"
+            className="hidden md:block flex text-8xl font-black italic text-center uppercase select-none"
             style={{
               fontFamily: "DDin-Bold",
               writingMode: "vertical-rl",

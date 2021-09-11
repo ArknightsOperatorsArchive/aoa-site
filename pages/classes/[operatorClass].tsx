@@ -72,7 +72,7 @@ const OperatorClassPage: React.FC = () => {
         {isLoading && (
           <Loading loadingMessage={`Loading artworks from ${operatorClass}`} />
         )}
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-4 mt-4 flex flex-1 w-full px-4 grid-flow-rows min-w-20">
+        <div className="grid grid-cols-1 xs:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 mt-4 flex flex-1 w-full px-4 grid-flow-rows min-w-20">
           {!isLoading &&
             !hasErrored &&
             operatorArtworks

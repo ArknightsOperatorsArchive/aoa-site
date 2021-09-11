@@ -37,7 +37,7 @@ const AnimatedLogo = () => {
         <motion.svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 141.73 66.47"
-          className="text-black-500 h-16 sm:h-12 md:h-64"
+          className="text-black-500 h-16 sm:h-32 md:h-64"
           variants={variants}
           animate={isActive ? "active" : "inactive"}
         >
@@ -93,7 +93,7 @@ const AnimatedLogo = () => {
       </div>
       <motion.svg
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full -mt-4 md:-mt-48"
+        className="w-full hidden md:inline-block -mt-4 md:-mt-48"
         viewBox="0 0 1756.325 414.184"
         variants={backgroundVariants}
         animate={isActive ? "active" : "inactive"}

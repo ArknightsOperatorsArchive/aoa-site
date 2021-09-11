@@ -75,29 +75,33 @@ const OperatorClassPage: React.FC = () => {
         <div className="grid grid-cols-6 gap-4 mt-4 flex flex-1 w-full px-4 grid-flow-rows min-w-20">
           {!isLoading &&
             !hasErrored &&
-            operatorArtworks.map((artwork) => {
-              return (
-                <div className="flex flex-1 flex-col min-w-10">
-                  <div
-                    className="flex flex-1"
-                    style={{
-                      minHeight: "5rem",
-                    }}
-                  >
-                    {artwork.fileExists ? (
-                      <div>Artwork here</div>
-                    ) : (
-                      <div className="flex-1 bg-gray-100 flex justify-center items-center">
-                        No artwork
-                      </div>
-                    )}
+            operatorArtworks
+              .sort((a, b) => {
+                return (b.operator.rarity || 0) - (a.operator.rarity || 0);
+              })
+              .map((artwork) => {
+                return (
+                  <div className="flex flex-1 flex-col min-w-10">
+                    <div
+                      className="flex flex-1"
+                      style={{
+                        minHeight: "5rem",
+                      }}
+                    >
+                      {artwork.fileExists ? (
+                        <div>Artwork here</div>
+                      ) : (
+                        <div className="flex-1 bg-gray-100 flex justify-center items-center">
+                          No artwork
+                        </div>
+                      )}
+                    </div>
+                    <div className="bg-gray-900 text-white text-center py-1.5 px-2">
+                      {artwork.operator.name}
+                    </div>
                   </div>
-                  <div className="bg-gray-900 text-white text-center py-1.5 px-2">
-                    {artwork.operator.name}
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
         </div>
       </div>
     </CoreContainer>

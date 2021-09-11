@@ -54,7 +54,7 @@ const CoreDialog: React.FC<CoreDialogProps> = ({
             leaveTo="opacity-0 scale-95"
           >
             <div className="inline-block w-full max-w-3xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-gray-800 text-white shadow-xl rounded-2xl">
-              <div className="flex flex-1">
+              <div className="flex flex-1 flex-wrap-reverse">
                 <div className="font-black uppercase italic leading-6 flex-1">
                   <h2 className="text-7xl">{modalHeading}</h2>
                 </div>

@@ -1,36 +1,45 @@
 import React from "react";
 import { motion, useAnimation } from "framer-motion";
 
-const variants = {};
+const variants = {
+  active: {
+    scale: 1,
+    opacity: 0.25,
+  },
+  inactive: {
+    scale: 1.25,
+    opacity: 0.75,
+  },
+};
+
+const backgroundVariants = {
+  active: {
+    rotate: -15,
+    scale: 1.5,
+    opacity: 0.75,
+  },
+  inactive: {
+    rotate: 0,
+    scale: 1.3,
+    opacity: 0.75,
+  },
+};
 
 const AnimatedLogo = () => {
-  const controls = useAnimation();
-  const [onClick, setOnClick] = React.useState(false);
-
-  React.useEffect(() => {
-    controls.start((i) => ({
-      opacity: 0,
-      x: 100,
-      height: "4rem",
-      transition: { delay: i * 0.3 },
-    }));
-  }, [onClick]);
-
-  const onClickAnimate = () => {};
+  const [isActive, setIsActive] = React.useState(false);
 
   return (
-    <React.Fragment>
-      <div className="z-20 w-full flex justify-center items-center">
+    <div
+      className="overflow-hidden flex flex-1 flex-col justify-center items-center"
+      onClick={() => setIsActive(!isActive)}
+    >
+      <div className="z-10">
         <motion.svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 141.73 66.47"
-          className="text-black-500 h-32 md:h-64 -mb-40"
-          initial={{ opacity: 0, height: "0rem" }}
-          animate={{ opacity: 1, height: "2rem" }}
-          transition={{ duration: 2 }}
-          onClick={() => {
-            setOnClick(!onClick);
-          }}
+          className="text-black-500 h-16 sm:h-12 md:h-64"
+          variants={variants}
+          animate={isActive ? "active" : "inactive"}
         >
           <motion.path
             fill="currentColor"
@@ -82,8 +91,24 @@ const AnimatedLogo = () => {
           />
         </motion.svg>
       </div>
-      <motion.div className="h-20 w-full bg-gray-100 z-0"></motion.div>
-    </React.Fragment>
+      <motion.svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full -mt-4 md:-mt-48"
+        viewBox="0 0 1756.325 414.184"
+        variants={backgroundVariants}
+        animate={isActive ? "active" : "inactive"}
+      >
+        <motion.path
+          d="M-37.208-.028,1719.117-328.212v86L-37.208,85.972Z"
+          transform="translate(37.208 328.212)"
+          opacity="0.361"
+          style={{
+            mixBlendMode: "darken",
+            isolation: "isolate",
+          }}
+        />
+      </motion.svg>
+    </div>
   );
 };
 

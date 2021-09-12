@@ -1,32 +1,18 @@
-import { motion } from "framer-motion";
+import React from "react";
 import Link from "next/link";
-import React, { Fragment, useState } from "react";
+import { motion } from "framer-motion";
 
-import UnderlineButton from "../../components/UnderlineButton";
-import { akOperatorClasses } from "../../constants/classes";
-import CoreDialog from "./CoreDialog";
+import CoreContainer from "../containers/main/CoreContainer";
+import { akOperatorClasses } from "../constants/classes";
 
-const OperatorsModal: React.FC<{ onOpen?: () => void }> = ({
-  onOpen = () => {},
-}) => {
-  let [isOpen, setIsOpen] = useState(false);
+const OperatorsPage = () => {
   return (
-    <Fragment>
-      <UnderlineButton
-        onClick={() => {
-          setIsOpen(true);
-          onOpen();
-        }}
-        className="text-2xl my-2"
-      >
-        operators
-      </UnderlineButton>
-      <CoreDialog
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        modalHeading="Operators"
-      >
-        <div className="grid grid-cols-3 md:grid-cols-5 flex-1 justify-around mt-4">
+    <CoreContainer>
+      <div className="py-4 px-2">
+        <div className="font-black italic leading-6 flex-1">
+          <h2 className="text-6xl">operators.</h2>
+        </div>
+        <div className="grid grid-cols-3 md:grid-cols-4 flex-1 justify-around mt-4">
           {akOperatorClasses.map((operatorClass, index) => {
             const lowercaseClass =
               operatorClass.charAt(0).toLowerCase() + operatorClass.slice(1);
@@ -55,9 +41,9 @@ const OperatorsModal: React.FC<{ onOpen?: () => void }> = ({
             );
           })}
         </div>
-      </CoreDialog>
-    </Fragment>
+      </div>
+    </CoreContainer>
   );
 };
 
-export default OperatorsModal;
+export default OperatorsPage;

@@ -2,11 +2,9 @@ import React, { Fragment, useState } from "react";
 
 import { useRouter } from "next/router";
 
-import AboutProjectModal from "../../containers/main/AboutProjectModal";
-import OperatorsModal from "../../containers/main/OperatorClassDialog";
-import CreditsModal from "../../containers/main/CreditsDialog";
 import { MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
+import UnderlineButton from "../UnderlineButton";
 
 export interface NavigationProps {
   type?: "default" | "compressed";
@@ -16,6 +14,28 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const nav = (
+    <React.Fragment>
+      <UnderlineButton
+        onClick={() => router.push("/about")}
+        className="text-2xl my-2"
+      >
+        project info
+      </UnderlineButton>
+      <UnderlineButton
+        onClick={() => router.push("/about")}
+        className="text-2xl my-2"
+      >
+        operators
+      </UnderlineButton>
+      <UnderlineButton
+        onClick={() => router.push("/credits")}
+        className="text-2xl my-2"
+      >
+        credits
+      </UnderlineButton>
+    </React.Fragment>
+  );
   return (
     <React.Fragment>
       <div className="flex">
@@ -55,7 +75,7 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-indigo-700">
+              <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-gray-900 text-white">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-in-out duration-300"
@@ -80,18 +100,12 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
                   </div>
                 </Transition.Child>
                 <div className="flex-shrink-0 flex items-center px-4">
-                  <img
-                    className="h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-logo-indigo-300-mark-white-text.svg"
-                    alt="Workflow"
-                  />
+                  <h3 className="text-xl font-semibold">
+                    Arknights: Operator Archives
+                  </h3>
                 </div>
-                <div className="mt-5 flex-1 h-0 overflow-y-auto">
-                  <nav className="px-2 space-y-1">
-                    <AboutProjectModal />
-                    <OperatorsModal />
-                    <CreditsModal />
-                  </nav>
+                <div className="mt-5 flex-1 h-0 overflow-y-auto px-2">
+                  <nav className="px-2 space-y-1">{nav}</nav>
                 </div>
               </div>
             </Transition.Child>
@@ -101,31 +115,27 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
           </Dialog>
         </Transition.Root>
         {type === "compressed" ? (
-          <div className="flex flex-col flex-wrap max-w-lg">
+          <div className="flex flex-col flex-wrap max-w-lg md:flex-0">
             <button
               onClick={() => router.push("/")}
-              className="bg-black text-white py-2 md:py-4 px-4 md:px-4 ml-0 md:ml-10"
+              className="flex-1 bg-black text-white py-2 md:py-4 px-4 md:px-4 ml-0 md:ml-10"
             >
               <h1 className="text-2xl leading-snug font-bold">{`Arknights: \n Operators \n Archives`}</h1>
             </button>
-            <div className="ml-10 flex flex-col justify-end px-2 flex-wrap max-w-1/2 hidden md:block">
-              <AboutProjectModal />
-              <OperatorsModal />
-              <CreditsModal />
+            <div className="hidden md:block ml-0 md:ml-10 flex flex-col justify-end px-2 flex-wrap max-w-1/2 hidden md:block">
+              {nav}
             </div>
           </div>
         ) : (
-          <div className="flex flex-row flex-wrap">
+          <div className="flex flex-row flex-wrap md:flex-0">
             <button
               onClick={() => router.push("/")}
-              className="bg-black text-white pl-6 pr-12 pt-6 pb-14 ml-10 max-w-xs"
+              className="bg-black text-white pl-6 pr-12 pt-6 pb-14 ml-0 md:ml-10 max-w-xs"
             >
               <h1 className="text-4xl leading-snug font-bold">{`Arknights: \n Operators \n Archives`}</h1>
             </button>
-            <div className="ml-2 flex flex-col justify-end px-2 flex-wrap">
-              <AboutProjectModal />
-              <OperatorsModal />
-              <CreditsModal />
+            <div className="hidden md:block ml-0 md:ml-10 flex flex-col justify-end px-2 flex-wrap">
+              {nav}
             </div>
           </div>
         )}

@@ -49,7 +49,7 @@ const CoreContainer: React.FC<CoreContainerProps> = ({
                   Arknights: Operators Archive
                 </h2>
                 <motion.h3 className="text-2xl md:text-6xl font-black uppercase italic mt-3">
-                  <LoadingMessage durationMs={1000} />
+                  <LoadingMessage durationMs={2500} />
                 </motion.h3>
               </div>
             </div>
@@ -68,7 +68,7 @@ const CoreContainer: React.FC<CoreContainerProps> = ({
               >
                 Operator
               </h1>
-              <div className="flex-1 flex flex-col py-12 px-8">{children}</div>
+              <div className="flex-1 flex flex-col py-12 px-2">{children}</div>
 
               <h1
                 className="hidden md:block flex text-8xl font-black italic text-center uppercase select-none"

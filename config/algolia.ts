@@ -1,0 +1,6 @@
+export const ALGOLIA_CONFIG = {
+  APP_ID: process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_ID,
+  API_KEY: process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY,
+};
+
+export default ALGOLIA_CONFIG;

@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 
 import Navigation, { NavigationProps } from "../../components/core/Navigation";
 import LoadingMessage from "../../components/LoadingMessage";
-
 import { useArtistState } from "../../contexts/ArtistsContext";
 import ProjectsContext from "../../contexts/ProjectsContext";
 
@@ -33,7 +32,7 @@ const CoreContainer: React.FC<CoreContainerProps> = ({
 
   return (
     <div className={styles.container}>
-      <div className="w-screen flex flex-col min-h-screen p-0 justify-center overflow-y-scroll">
+      <div className="w-screen flex flex-col min-h-screen p-0 justify-center">
         {loadedProgress < 100 ? (
           <div className=" flex-1 flex flex-col">
             <motion.div className="h-2 w-full bg-gray-100 justify-self-start self-start">

@@ -17,7 +17,7 @@ const OperatorsPage = () => {
             const lowercaseClass =
               operatorClass.charAt(0).toLowerCase() + operatorClass.slice(1);
             return (
-              <Link href={`/classes/${operatorClass}`}>
+              <Link href={`/classes/${operatorClass}`} key={operatorClass}>
                 <motion.div
                   whileHover={{
                     y: -10,

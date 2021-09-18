@@ -28,7 +28,7 @@ const UnderlineButton: React.FC<UnderlineButtonProps> = ({
         </span>
       </button>
       <div
-        className="w-full bg-black"
+        className="w-full bg-current"
         style={{
           width: hover ? "100%" : 0,
           height: "0.3em",

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { useRouter } from "next/router";
-import AuthenticationContext from "../../../contexts/AuthenticationContext";
-import { doSignInWithGoogle } from "../../../firebase/firebase";
+import AuthenticationContext from "../../contexts/AuthenticationContext";
+import { doSignInWithGoogle } from "../../firebase/firebase";
 
 export default function LoginPage() {
   const router = useRouter();

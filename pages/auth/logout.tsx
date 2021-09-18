@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { doSignOut } from "../../../firebase/firebase";
+import { doSignOut } from "../../firebase/firebase";
 
 const LogoutPage: React.FC = () => {
   const router = useRouter();

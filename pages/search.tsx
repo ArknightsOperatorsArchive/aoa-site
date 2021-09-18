@@ -1,9 +1,17 @@
 import React from "react";
 import { NextPageContext } from "next";
+
 import CoreContainer from "../containers/main/CoreContainer";
+
 import search from "../services/algolia";
 
-const SearchPage = (props: any) => {
+import ArtistQueryResponse from "../types/SearchResponse";
+
+interface SearchPageProps {
+  data: ArtistQueryResponse;
+  searchQuery: string;
+}
+const SearchPage: React.FC<SearchPageProps> = (props: any) => {
   console.log(props);
   return (
     <CoreContainer>
@@ -21,16 +29,11 @@ const SearchPage = (props: any) => {
 
 export const getServerSideProps = async (ctx: NextPageContext) => {
   const { query } = ctx;
-  const searchTarget = query["q"] as string;
+  const searchTarget = (query["q"] as string) || "";
   const pageNumber = query["page"] as string;
   const pageSize = query["size"] as string;
-  const results = await search(searchTarget, pageNumber, pageSize);
-  if (!results) {
-    return {
-      notFound: true,
-    };
-  }
 
+  const results = await search(searchTarget, pageNumber, pageSize);
   return {
     props: {
       data: results,

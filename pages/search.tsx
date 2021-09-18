@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { NextPageContext } from "next";
+import Link from "next/link";
 
 import CoreContainer from "../containers/main/CoreContainer";
 
@@ -53,16 +54,15 @@ const SearchPage: React.FC<SearchPageProps> = ({ data, searchQuery }) => {
         <div className="mt-8">
           {data.hits.map((hit) => {
             return (
-              <div
-                key={hit.objectID}
-                className="border border-grey-500 px-4 py-2"
-              >
-                <span>{hit["operator.class"]}</span>
-                <h3 className="text-xl font-semibold text-blue-500">
-                  {hit["operator.name"]}
-                </h3>
-                <h4>{`By ${hit["artist.displayName"]}`}</h4>
-              </div>
+              <Link href={`/artworks/${hit.objectID}`} key={hit.objectID}>
+                <div className="border border-grey-500 px-4 py-2">
+                  <span>{hit["operator.class"]}</span>
+                  <h3 className="text-xl font-semibold text-blue-500">
+                    {hit["operator.name"]}
+                  </h3>
+                  <h4>{`By ${hit["artist.displayName"]}`}</h4>
+                </div>
+              </Link>
             );
           })}
         </div>

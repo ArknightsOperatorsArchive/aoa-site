@@ -19,6 +19,20 @@ const AboutPage = () => {
             </ul>
           </div>
           <div className="mt-4">
+            <h2 className="font-semibold text-2xl">Special thanks to</h2>
+            <ul className="mt-2">
+              <li>
+                <b>sushimasou</b> for designing the website
+              </li>
+              <li>
+                <b>kanadechiii</b> for designing the logo and artbook covers
+              </li>
+              <li>
+                <b>EliseMosser</b> for making the NPC logo
+              </li>
+            </ul>
+          </div>
+          <div className="mt-4">
             <h2 className="font-semibold text-2xl">Artists</h2>
             {!artists.isLoaded && !artists.artists ? (
               <div>Loading...</div>

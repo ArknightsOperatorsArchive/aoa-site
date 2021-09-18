@@ -3,7 +3,7 @@ import { NextPageContext } from "next";
 import CoreContainer from "../containers/main/CoreContainer";
 import search from "../services/algolia";
 
-const SearchPage = (props: { data }) => {
+const SearchPage = (props: any) => {
   console.log(props);
   return (
     <CoreContainer>

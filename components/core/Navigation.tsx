@@ -122,7 +122,7 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
             >
               <h1 className="text-2xl leading-snug font-bold">{`Arknights: \n Operators \n Archives`}</h1>
             </button>
-            <div className="hidden md:flex ml-0 md:ml-5 flex-col justify-end px-2 flex-wrap max-w-1/2 hidden md:block">
+            <div className="hidden md:flex ml-0 md:ml-5 flex-col justify-end px-4 flex-wrap max-w-1/2 hidden md:block">
               {nav}
             </div>
           </div>

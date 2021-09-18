@@ -169,7 +169,7 @@ const Operators = () => {
                       {lowercaseClass != "other" && (
                         <img
                           className="h-6 w-6"
-                          src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
+                          src={`/images/classes/${lowercaseClass}.png`}
                           alt={`${lowercaseClass} logo`}
                         />
                       )}

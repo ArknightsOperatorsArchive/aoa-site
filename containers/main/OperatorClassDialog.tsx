@@ -39,7 +39,7 @@ const OperatorsModal: React.FC<{ onOpen?: () => void }> = ({
                 >
                   {operatorClass !== "Other" && (
                     <img
-                      src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
+                      src={`/images/classes/${lowercaseClass}.png`}
                       alt={`${operatorClass} image`}
                       className="flex-shrink-0 h-20 w-20 mx-2 my-2 rounded-lg "
                       key={index}

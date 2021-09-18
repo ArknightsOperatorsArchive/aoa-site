@@ -23,19 +23,12 @@ const OperatorsPage = () => {
                     y: -10,
                   }}
                 >
-                  {operatorClass !== "Other" && (
-                    <img
-                      src={`/images/classes/icon_profession_${lowercaseClass}_large.png`}
-                      alt={`${operatorClass} image`}
-                      className="flex-shrink-0 h-20 w-20 mx-2 my-2 rounded-lg "
-                      key={index}
-                    />
-                  )}
-                  {operatorClass === "Other" && (
-                    <div className="bg-black h-20 w-20 rounded-lg mx-2 my-2 flex justify-center items-center">
-                      Other
-                    </div>
-                  )}
+                  <img
+                    src={`/images/classes/${lowercaseClass}.png`}
+                    alt={`${operatorClass} image`}
+                    className="flex-shrink-0 h-20 w-20 mx-2 my-2 rounded-lg "
+                    key={index}
+                  />
                 </motion.div>
               </Link>
             );

@@ -7,8 +7,14 @@ const SearchPage = (props: any) => {
   console.log(props);
   return (
     <CoreContainer>
-      Search page
-      <pre>{JSON.stringify(props, null, 2)}</pre>
+      <div className="py-4 px-2">
+        <div className="font-black uppercase italic leading-6 flex-1">
+          <h2 className="text-7xl">search.</h2>
+        </div>
+        <div className="mt-4">
+          <pre>{JSON.stringify(props, null, 2)}</pre>
+        </div>
+      </div>
     </CoreContainer>
   );
 };

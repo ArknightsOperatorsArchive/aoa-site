@@ -23,7 +23,7 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
         project info
       </UnderlineButton>
       <UnderlineButton
-        onClick={() => router.push("/about")}
+        onClick={() => router.push("/operators")}
         className="text-2xl my-2"
       >
         operators

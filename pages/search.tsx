@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NextPageContext } from "next";
 
 import CoreContainer from "../containers/main/CoreContainer";
@@ -13,12 +13,15 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/outline";
+import { useRouter } from "next/router";
 
 interface SearchPageProps {
   data: ArtistQueryResponse;
   searchQuery: string;
 }
 const SearchPage: React.FC<SearchPageProps> = ({ data, searchQuery }) => {
+  const [searchTerm, setSearchTerm] = useState(searchQuery);
+  const router = useRouter();
   const { pages } = paginate(
     data.nbHits,
     data.page + 1,
@@ -35,6 +38,13 @@ const SearchPage: React.FC<SearchPageProps> = ({ data, searchQuery }) => {
               type="text"
               name="search"
               id="search"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.currentTarget.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  router.push(`/search?q=${searchTerm}`);
+                }
+              }}
               className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
               placeholder="search for an artist or operator..."
             />

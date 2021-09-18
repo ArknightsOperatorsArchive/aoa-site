@@ -81,7 +81,10 @@ const OperatorClassPage: React.FC = () => {
               })
               .map((artwork) => {
                 return (
-                  <div className="flex flex-1 flex-col min-w-10">
+                  <div
+                    className="flex flex-1 flex-col min-w-10"
+                    key={artwork.uid}
+                  >
                     <div
                       className="flex flex-1"
                       style={{

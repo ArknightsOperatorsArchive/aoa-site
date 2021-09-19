@@ -38,7 +38,7 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
   );
   return (
     <React.Fragment>
-      <div className="flex">
+      <div className="flex px-1">
         <div className="flex">
           <button
             type="button"
@@ -75,7 +75,7 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
               leaveFrom="translate-x-0"
               leaveTo="-translate-x-full"
             >
-              <div className="relative flex-1 flex flex-col max-w-xs w-full pt-5 pb-4 bg-gray-900 text-white">
+              <div className="relative flex-1 flex flex-col max-w-xs w-screen pt-5 pb-4 bg-gray-900 text-white">
                 <Transition.Child
                   as={Fragment}
                   enter="ease-in-out duration-300"

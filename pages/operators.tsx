@@ -9,10 +9,10 @@ const OperatorsPage = () => {
   return (
     <CoreContainer>
       <div className="py-4 px-2">
-        <div className="font-black italic leading-6 flex-1">
+        <div className="font-black italic leading-6 flex-1 text-center">
           <h2 className="text-6xl">operators.</h2>
         </div>
-        <div className="grid grid-cols-3 md:grid-cols-4 flex-1 justify-around mt-4">
+        <div className="grid grid-cols-3 md:grid-cols-4 flex-1 justify-around mt-4 px-8">
           {akOperatorClasses.map((operatorClass, index) => {
             const lowercaseClass =
               operatorClass.charAt(0).toLowerCase() + operatorClass.slice(1);

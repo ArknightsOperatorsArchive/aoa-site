@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 import { akOperatorClasses } from "../../constants/classes";
 import CoreContainer from "../../containers/main/CoreContainer";
@@ -81,25 +82,27 @@ const OperatorClassPage: React.FC = () => {
               })
               .map((artwork) => {
                 return (
-                  <div className="flex flex-1 flex-col min-w-10">
-                    <div
-                      className="flex flex-1"
-                      style={{
-                        minHeight: "5rem",
-                      }}
-                    >
-                      {artwork.fileExists ? (
-                        <div>Artwork here</div>
-                      ) : (
-                        <div className="flex-1 bg-gray-100 flex justify-center items-center">
-                          No artwork
-                        </div>
-                      )}
+                  <Link key={artwork.uid} href={`/artworks/${artwork.uid}`}>
+                    <div className="flex flex-1 flex-col min-w-10">
+                      <div
+                        className="flex flex-1"
+                        style={{
+                          minHeight: "5rem",
+                        }}
+                      >
+                        {artwork.fileExists ? (
+                          <div>Artwork here</div>
+                        ) : (
+                          <div className="flex-1 bg-gray-100 flex justify-center items-center">
+                            No artwork
+                          </div>
+                        )}
+                      </div>
+                      <div className="bg-gray-900 text-white text-center py-1.5 px-2">
+                        {artwork.operator.name}
+                      </div>
                     </div>
-                    <div className="bg-gray-900 text-white text-center py-1.5 px-2">
-                      {artwork.operator.name}
-                    </div>
-                  </div>
+                  </Link>
                 );
               })}
         </div>

@@ -127,6 +127,7 @@ const SocialTag: React.FC<SocialTagProps> = ({ social }) => {
               </svg>
             }
             social={{
+              url: `https://pixiv.me/${social.username}`,
               displayName: `@${social.username}`,
             }}
           />

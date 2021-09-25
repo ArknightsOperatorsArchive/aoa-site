@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { MenuAlt2Icon, XIcon } from "@heroicons/react/outline";
 import { Dialog, Transition } from "@headlessui/react";
 import UnderlineButton from "../UnderlineButton";
+import NavSearch from "./NavSearch";
 
 export interface NavigationProps {
   type?: "default" | "compressed";
@@ -115,7 +116,7 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
           </Dialog>
         </Transition.Root>
         {type === "compressed" ? (
-          <div className="flex flex-col flex-wrap max-w-lg md:flex-0">
+          <div className="flex flex-1 flex-col flex-wrap max-w-lg md:flex-0">
             <button
               onClick={() => router.push("/")}
               className="flex-1 bg-black text-white py-2 md:py-4 px-4 md:px-4 ml-0 md:ml-10"
@@ -125,9 +126,11 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
             <div className="hidden md:flex ml-0 md:ml-5 flex-col justify-end px-4 flex-wrap max-w-1/2 hidden md:block">
               {nav}
             </div>
+            <div className="flex-1" />
+            <NavSearch />
           </div>
         ) : (
-          <div className="flex flex-row flex-wrap md:flex-0">
+          <div className="flex flex-1  flex-row flex-wrap md:flex-0">
             <button
               onClick={() => router.push("/")}
               className="bg-black text-white pl-6 pr-12 pt-6 pb-14 ml-0 md:ml-10 max-w-xs"
@@ -137,6 +140,8 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
             <div className="hidden md:flex ml-0 md:ml-5 flex-col justify-end px-2 flex-wrap">
               {nav}
             </div>
+            <div className="flex-1" />
+            <NavSearch />
           </div>
         )}
       </div>

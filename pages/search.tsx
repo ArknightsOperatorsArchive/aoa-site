@@ -53,6 +53,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ data, searchQuery }) => {
         </div>
         <div className="mt-8">
           {data.hits.map((hit) => {
+            console.log(hit);
             return (
               <Link href={`/artworks/${hit.objectID}`} key={hit.objectID}>
                 <div className="border border-grey-500 px-4 py-2">

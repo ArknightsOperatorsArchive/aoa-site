@@ -22,7 +22,7 @@ const AboutPage = () => {
             <h2 className="font-semibold text-2xl">Special thanks to</h2>
             <ul className="mt-2">
               <li>
-                <b>sushimasou</b> for designing the website
+                <b>Sushisamou</b> for designing the website
               </li>
               <li>
                 <b>kanadechiii</b> for designing the logo and artbook covers

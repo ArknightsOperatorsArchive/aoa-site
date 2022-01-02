@@ -154,7 +154,6 @@ const OperatorClassPage: React.FC = () => {
                     1*
                   </div>
                 </Menu.Item>
-
               </div>
             </Menu.Items>
           </Transition>

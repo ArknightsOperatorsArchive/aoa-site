@@ -16,7 +16,11 @@ interface SearchPageProps {
 
 const searchOptions = {
   includeScore: true,
-  keys: ['artist.displayName', 'operator.name']
+  distance: 30,
+  keys: ['artist.displayName', {
+    name: 'operator.name',
+    weight: 3
+  }]
 }
 
 const SearchPage: React.FC<SearchPageProps> = ({ result, searchQuery }) => {
@@ -47,11 +51,23 @@ const SearchPage: React.FC<SearchPageProps> = ({ result, searchQuery }) => {
             />
           </div>
         </div>
-      </div>
-      <div>
-        <pre>
-          {JSON.stringify(result, null, 2)}
-        </pre>
+      </div><div className="mt-8">
+        {result.map((artwork) => {
+          const { item } = artwork
+
+          const { operator, artist } = item
+          return (
+            <Link href={`/artworks/${item.uid}`} key={item.uid}>
+              <div className="border border-grey-500 px-4 py-2">
+                <span>{operator.class}</span>
+                <h3 className="text-xl font-semibold text-blue-500">
+                  {operator.name}
+                </h3>
+                <h4>{`By ${artist.displayName}`}</h4>
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </CoreContainer>
   );
@@ -69,12 +85,11 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
   }).then(resp => {
     return resp as { data: Artwork[] }
   })
-  console.log('fetching data!')
-  console.log(artworks.data[0].operator.name)
+
   const fuse = new Fuse(artworks.data, searchOptions)
 
   const result = fuse.search(searchTarget)
-  console.log(result)
+
   return {
     props: {
       result,

@@ -28,7 +28,7 @@ import Artist from "../../../../../types/Artist";
 import Artwork, { ArtworkStatus } from "../../../../../types/Artwork";
 import DeleteConfirmationModal from "../../../../../containers/AdminContainers/modals/DeleteConfirmationModal";
 import { useNotificationDispatch } from "../../../../../contexts/NotificationProvider";
-import SocialTag from "../../../../../components/SocialTag";
+
 import ArtistsListBox from "../../../../../containers/AdminContainers/ArtistsListBox";
 
 const artworkStatus: ArtworkStatus[] = [

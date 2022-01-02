@@ -9,9 +9,10 @@ import NavSearch from "./NavSearch";
 
 export interface NavigationProps {
   type?: "default" | "compressed";
+  displaySearch?: boolean
 }
 
-const Navigation: React.FC<NavigationProps> = ({ type }) => {
+const Navigation: React.FC<NavigationProps> = ({ type, displaySearch = false }) => {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -127,7 +128,7 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
               {nav}
             </div>
             <div className="flex-1" />
-            <NavSearch />
+            {displaySearch && <NavSearch />}
           </div>
         ) : (
           <div className="flex flex-1  flex-row flex-wrap md:flex-0">
@@ -141,7 +142,7 @@ const Navigation: React.FC<NavigationProps> = ({ type }) => {
               {nav}
             </div>
             <div className="flex-1" />
-            <NavSearch />
+            {displaySearch && <NavSearch />}
           </div>
         )}
       </div>

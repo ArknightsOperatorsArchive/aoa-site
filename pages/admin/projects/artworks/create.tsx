@@ -1,15 +1,16 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import { Transition, Listbox } from "@headlessui/react";
 import { CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/solid";
-
-import { useFunctions } from "../../../../firebase/firebase";
-import Artist, { ArtistSocials } from "../../../../types/Artist";
-import AKOperator from "../../../../types/AKOperator";
 import { CheckIcon, SelectorIcon } from "@heroicons/react/outline";
+
 import Loading from "../../../../components/Loading";
 import AdminDashboardContainer from "../../../../containers/AdminContainers/AdminDashboardContainer";
+
+import { useFunctions } from "../../../../firebase/firebase";
 import classNames from "../../../../utils/classNames";
+
 import ProjectsContext from "../../../../contexts/ProjectsContext";
+import AKOperator from "../../../../types/AKOperator";
 import Artwork from "../../../../types/Artwork";
 
 import {

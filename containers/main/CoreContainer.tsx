@@ -24,6 +24,8 @@ const CoreContainer: React.FC<CoreContainerProps> = ({
   const artistsGlobalState = useArtistState();
   const projectsGlobalState = useContext(ProjectsContext);
 
+  const title = `Arknights Operators Archive${pageTitle && " - " + pageTitle}`
+
   useEffect(() => {
     let progress = 0;
     if (artistsGlobalState.isLoaded) {
@@ -33,11 +35,16 @@ const CoreContainer: React.FC<CoreContainerProps> = ({
     setLoadedProgress(progress);
   }, [artistsGlobalState, projectsGlobalState]);
 
+
   return (
     <React.Fragment>
       <Head>
-        <title>{`Arknights Operators Archive${pageTitle && " - " + pageTitle}`}</title>
-
+        <title>{title}</title>
+        <meta property="og:description"
+          content="Hi! We're a group of artists who are fans of Arknights, and we aim to create an artbook featuring every single operator in the game!" />
+        <meta property="og:title" content={title} />
+        <meta property="og:type" content="website" />
+        <meta property="og:locale" content="en_US" />
       </Head>
       <div className={styles.container}>
         <div className="w-screen flex flex-col min-h-screen p-0 justify-center">

@@ -5,7 +5,7 @@ import { useArtistState } from "../contexts/ArtistsContext";
 const AboutPage = () => {
   const artists = useArtistState();
   return (
-    <CoreContainer>
+    <CoreContainer pageTitle="Credits">
       <div className="py-4 px-2">
         <div className="font-black uppercase italic leading-6 flex-1">
           <h2 className="text-7xl">credits</h2>

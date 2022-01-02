@@ -7,7 +7,7 @@ import { akOperatorClasses } from "../constants/classes";
 
 const OperatorsPage = () => {
   return (
-    <CoreContainer>
+    <CoreContainer pageTitle="Operators">
       <div className="py-4 px-2">
         <div className="font-black italic leading-6 flex-1 text-center">
           <h2 className="text-6xl">operators.</h2>

@@ -12,7 +12,7 @@ export interface NavigationProps {
   displaySearch?: boolean
 }
 
-const Navigation: React.FC<NavigationProps> = ({ type, displaySearch = false }) => {
+const Navigation: React.FC<NavigationProps> = ({ type, displaySearch = true }) => {
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 

@@ -11,9 +11,9 @@ import { useFunctions } from "../../firebase/firebase";
 import { useNotificationDispatch } from "../../contexts/NotificationProvider";
 import Artwork from "../../types/Artwork";
 import Loading from "../../components/Loading";
-import classNames from "../../utils/classNames";
+
 import { OperatorRarity } from "../../types/AKOperator";
-import { range } from "../../utils/maths";
+
 
 const OperatorClassPage: React.FC = () => {
   const router = useRouter();

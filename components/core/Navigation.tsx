@@ -36,6 +36,11 @@ const Navigation: React.FC<NavigationProps> = ({ type, displaySearch = true }) =
       >
         credits
       </UnderlineButton>
+      <UnderlineButton
+        onClick={() => router.push("/credits")}
+        className="text-2xl my-2">
+        download the zine
+      </UnderlineButton>
     </React.Fragment>
   );
   return (

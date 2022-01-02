@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { NextPageContext } from "next";
 import Link from "next/link";
+
 import Fuse from 'fuse.js'
+import searchOptions from "../config/fuse";
 
 import CoreContainer from "../containers/main/CoreContainer";
 
@@ -14,14 +16,7 @@ interface SearchPageProps {
   searchQuery: string;
 }
 
-const searchOptions = {
-  includeScore: true,
-  distance: 30,
-  keys: ['artist.displayName', {
-    name: 'operator.name',
-    weight: 3
-  }]
-}
+
 
 const SearchPage: React.FC<SearchPageProps> = ({ result, searchQuery }) => {
   const [searchTerm, setSearchTerm] = useState(searchQuery);

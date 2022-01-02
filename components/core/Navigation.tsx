@@ -128,7 +128,7 @@ const Navigation: React.FC<NavigationProps> = ({ type, displaySearch = true }) =
               {nav}
             </div>
             <div className="flex-1" />
-            {displaySearch && <NavSearch />}
+            {/* {displaySearch && <NavSearch />} */}
           </div>
         ) : (
           <div className="flex flex-1  flex-row flex-wrap md:flex-0">

@@ -2,33 +2,25 @@ import React, { useState } from "react";
 import { NextPageContext } from "next";
 import Link from "next/link";
 
+import Fuse from 'fuse.js'
+import FuseSearchConfig from "../config/fuse";
+
 import CoreContainer from "../containers/main/CoreContainer";
 
-import search from "../services/algolia";
-
-import ArtistQueryResponse from "../types/SearchResponse";
-import { paginate } from "../utils/paginate";
-import {
-  ChevronDoubleLeftIcon,
-  ChevronDoubleRightIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "@heroicons/react/outline";
 import { useRouter } from "next/router";
+import { useFunctions } from "../firebase/firebase";
+import Artwork from "../types/Artwork";
 
 interface SearchPageProps {
-  data: ArtistQueryResponse;
+  result: Fuse.FuseResult<Artwork>[]
   searchQuery: string;
 }
-const SearchPage: React.FC<SearchPageProps> = ({ data, searchQuery }) => {
+
+const SearchPage: React.FC<SearchPageProps> = ({ result, searchQuery }) => {
   const [searchTerm, setSearchTerm] = useState(searchQuery);
+
   const router = useRouter();
-  const { pages } = paginate(
-    data.nbHits,
-    data.page + 1,
-    data.hitsPerPage,
-    data.nbPages
-  );
+
   return (
     <CoreContainer>
       <div className="py-4 px-2">
@@ -50,73 +42,24 @@ const SearchPage: React.FC<SearchPageProps> = ({ data, searchQuery }) => {
               placeholder="search for an artist or operator..."
             />
           </div>
-        </div>
-        <div className="mt-8">
-          {data.hits.map((hit) => {
-            console.log(hit);
+        </div><div className="mt-8">
+          {result.map((artwork) => {
+            const { item } = artwork
+
+            const { operator, artist } = item
             return (
-              <Link href={`/artworks/${hit.objectID}`} key={hit.objectID}>
+              <Link href={`/artworks/${item.uid}`} key={item.uid}>
                 <div className="border border-grey-500 px-4 py-2">
-                  <span>{hit["operator.class"]}</span>
+                  <span>{operator.class}</span>
                   <h3 className="text-xl font-semibold text-blue-500">
-                    {hit["operator.name"]}
+                    {operator.name}
                   </h3>
-                  <h4>{`By ${hit["artist.displayName"]}`}</h4>
+                  <h4>{`By ${artist.displayName}`}</h4>
                 </div>
               </Link>
             );
           })}
         </div>
-      </div>
-      <div className="flex w-full justify-center">
-        <nav
-          className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
-          aria-label="Pagination"
-        >
-          <button
-            disabled={data.page === 0}
-            className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-          >
-            <span className="sr-only">Back to Front</span>
-            <ChevronDoubleLeftIcon className="h-5 w-5" aria-hidden="true" />
-          </button>
-          <button
-            disabled={data.page === 0}
-            className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-          >
-            <span className="sr-only">Previous</span>
-            <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-          </button>
-          {pages.map((pageNumber) => {
-            return (
-              <button
-                key={pageNumber}
-                aria-current="page"
-                className={
-                  data.page + 1 === pageNumber
-                    ? "z-10 bg-indigo-50 border-indigo-500 text-indigo-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                    : "bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
-                }
-              >
-                {pageNumber}
-              </button>
-            );
-          })}
-          <button
-            disabled={data.page === data.nbPages}
-            className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-          >
-            <span className="sr-only">Next</span>
-            <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-          </button>
-          <button
-            disabled={data.page === data.nbPages}
-            className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-          >
-            <span className="sr-only">Back to End</span>
-            <ChevronDoubleRightIcon className="h-5 w-5" aria-hidden="true" />
-          </button>
-        </nav>
       </div>
     </CoreContainer>
   );
@@ -125,16 +68,33 @@ const SearchPage: React.FC<SearchPageProps> = ({ data, searchQuery }) => {
 export const getServerSideProps = async (ctx: NextPageContext) => {
   const { query } = ctx;
   const searchTarget = (query["q"] as string) || "";
-  const pageNumber = query["page"] as string;
-  const pageSize = query["size"] as string;
 
-  const results = await search(searchTarget, pageNumber, pageSize);
+  let result: Fuse.FuseResult<Artwork>[] = []
+
+  if (searchTarget) {
+    const functions = useFunctions();
+    const getArtworks = functions.httpsCallable('getAllArtworks')
+
+    const artworks = await getArtworks({
+      projectId: 'main'
+    }).then(resp => {
+      return resp as { data: Artwork[] }
+    })
+
+    const fuse = new Fuse(artworks.data, FuseSearchConfig)
+
+    result = fuse.search(searchTarget)
+
+  }
+
+
   return {
     props: {
-      data: results,
+      result,
       searchQuery: searchTarget,
     },
   };
 };
+
 
 export default SearchPage;

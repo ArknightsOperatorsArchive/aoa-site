@@ -16,8 +16,6 @@ interface SearchPageProps {
   searchQuery: string;
 }
 
-
-
 const SearchPage: React.FC<SearchPageProps> = ({ result, searchQuery }) => {
   const [searchTerm, setSearchTerm] = useState(searchQuery);
 

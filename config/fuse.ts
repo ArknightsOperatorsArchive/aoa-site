@@ -2,7 +2,7 @@ import Fuse from 'fuse.js'
 
 import Artwork from '../types/Artwork'
 
-const searchOptions: Fuse.IFuseOptions<Artwork> = {
+const FuseSearchConfig: Fuse.IFuseOptions<Artwork> = {
     includeScore: true,
     distance: 30,
     keys: ['artist.displayName', {
@@ -11,4 +11,4 @@ const searchOptions: Fuse.IFuseOptions<Artwork> = {
     }]
 }
 
-export default searchOptions
+export default FuseSearchConfig

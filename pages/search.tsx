@@ -3,7 +3,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 
 import Fuse from 'fuse.js'
-import searchOptions from "../config/fuse";
+import FuseSearchConfig from "../config/fuse";
 
 import CoreContainer from "../containers/main/CoreContainer";
 
@@ -81,7 +81,7 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
       return resp as { data: Artwork[] }
     })
 
-    const fuse = new Fuse(artworks.data, searchOptions)
+    const fuse = new Fuse(artworks.data, FuseSearchConfig)
 
     result = fuse.search(searchTarget)
 

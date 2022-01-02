@@ -1,27 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { NextPageContext } from "next";
 import Link from "next/link";
+import Fuse from 'fuse.js'
 
 import CoreContainer from "../containers/main/CoreContainer";
 
-import ArtistQueryResponse from "../types/SearchResponse";
 import { useRouter } from "next/router";
+import { useFunctions } from "../firebase/firebase";
+import Artwork from "../types/Artwork";
 
 interface SearchPageProps {
-  data: ArtistQueryResponse;
+  result: Fuse.FuseResult<Artwork>[]
   searchQuery: string;
 }
-const SearchPage: React.FC<SearchPageProps> = ({ searchQuery }) => {
+
+const searchOptions = {
+  includeScore: true,
+  keys: ['artist.displayName', 'operator.name']
+}
+
+const SearchPage: React.FC<SearchPageProps> = ({ result, searchQuery }) => {
   const [searchTerm, setSearchTerm] = useState(searchQuery);
 
-  useEffect(() => {
-    function fetchData() {
-      console.log('fetching data!')
-    }
-    fetchData()
-  })
 
   const router = useRouter();
+
   return (
     <CoreContainer>
       <div className="py-4 px-2">
@@ -45,6 +48,11 @@ const SearchPage: React.FC<SearchPageProps> = ({ searchQuery }) => {
           </div>
         </div>
       </div>
+      <div>
+        <pre>
+          {JSON.stringify(result, null, 2)}
+        </pre>
+      </div>
     </CoreContainer>
   );
 };
@@ -53,8 +61,23 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
   const { query } = ctx;
   const searchTarget = (query["q"] as string) || "";
 
+  const functions = useFunctions();
+  const getArtworks = functions.httpsCallable('getAllArtworks')
+
+  const artworks = await getArtworks({
+    projectId: 'main'
+  }).then(resp => {
+    return resp as { data: Artwork[] }
+  })
+  console.log('fetching data!')
+  console.log(artworks.data[0].operator.name)
+  const fuse = new Fuse(artworks.data, searchOptions)
+
+  const result = fuse.search(searchTarget)
+  console.log(result)
   return {
     props: {
+      result,
       searchQuery: searchTarget,
     },
   };

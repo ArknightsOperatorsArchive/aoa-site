@@ -77,18 +77,24 @@ export const getServerSideProps = async (ctx: NextPageContext) => {
   const { query } = ctx;
   const searchTarget = (query["q"] as string) || "";
 
-  const functions = useFunctions();
-  const getArtworks = functions.httpsCallable('getAllArtworks')
+  let result: Fuse.FuseResult<Artwork>[] = []
 
-  const artworks = await getArtworks({
-    projectId: 'main'
-  }).then(resp => {
-    return resp as { data: Artwork[] }
-  })
+  if (searchTarget) {
+    const functions = useFunctions();
+    const getArtworks = functions.httpsCallable('getAllArtworks')
 
-  const fuse = new Fuse(artworks.data, searchOptions)
+    const artworks = await getArtworks({
+      projectId: 'main'
+    }).then(resp => {
+      return resp as { data: Artwork[] }
+    })
 
-  const result = fuse.search(searchTarget)
+    const fuse = new Fuse(artworks.data, searchOptions)
+
+    result = fuse.search(searchTarget)
+
+  }
+
 
   return {
     props: {

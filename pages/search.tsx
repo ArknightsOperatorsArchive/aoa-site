@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import Fuse from 'fuse.js'
@@ -26,7 +26,6 @@ const searchOptions = {
 const SearchPage: React.FC<SearchPageProps> = ({ result, searchQuery }) => {
   const [searchTerm, setSearchTerm] = useState(searchQuery);
 
-
   const router = useRouter();
 
   return (
@@ -50,24 +49,24 @@ const SearchPage: React.FC<SearchPageProps> = ({ result, searchQuery }) => {
               placeholder="search for an artist or operator..."
             />
           </div>
-        </div>
-      </div><div className="mt-8">
-        {result.map((artwork) => {
-          const { item } = artwork
+        </div><div className="mt-8">
+          {result.map((artwork) => {
+            const { item } = artwork
 
-          const { operator, artist } = item
-          return (
-            <Link href={`/artworks/${item.uid}`} key={item.uid}>
-              <div className="border border-grey-500 px-4 py-2">
-                <span>{operator.class}</span>
-                <h3 className="text-xl font-semibold text-blue-500">
-                  {operator.name}
-                </h3>
-                <h4>{`By ${artist.displayName}`}</h4>
-              </div>
-            </Link>
-          );
-        })}
+            const { operator, artist } = item
+            return (
+              <Link href={`/artworks/${item.uid}`} key={item.uid}>
+                <div className="border border-grey-500 px-4 py-2">
+                  <span>{operator.class}</span>
+                  <h3 className="text-xl font-semibold text-blue-500">
+                    {operator.name}
+                  </h3>
+                  <h4>{`By ${artist.displayName}`}</h4>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </CoreContainer>
   );

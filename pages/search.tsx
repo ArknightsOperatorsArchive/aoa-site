@@ -22,7 +22,7 @@ const SearchPage: React.FC<SearchPageProps> = ({ result, searchQuery }) => {
   const router = useRouter();
 
   return (
-    <CoreContainer>
+    <CoreContainer pageTitle="Search">
       <div className="py-4 px-2">
         <div className="font-black uppercase italic leading-6 flex-1">
           <h2 className="text-7xl">search.</h2>

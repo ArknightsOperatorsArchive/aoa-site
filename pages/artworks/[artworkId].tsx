@@ -14,7 +14,7 @@ const ArtworksPage: React.FC<ArtworksPageProps> = ({ data }) => {
   console.log(data);
 
   return (
-    <CoreContainer>
+    <CoreContainer pageTitle={`Artworks - ${data.operator.name} by ${data.artist.displayName}`}>
       <div className="flex flex-1 flex-col min-w-10">
         <div
           className="flex flex-1"
